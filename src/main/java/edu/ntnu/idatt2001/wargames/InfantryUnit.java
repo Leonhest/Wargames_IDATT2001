@@ -2,7 +2,7 @@ package edu.ntnu.idatt2001.wargames;
 
 /**
  * Represents an infantry unit in a Field army.
- * A melee unit that possesses a moderate attack bonus.
+ * A melee unit that possesses moderate attack bonus.
  */
 public class InfantryUnit extends Unit {
 
@@ -29,6 +29,7 @@ public class InfantryUnit extends Unit {
     }
 
     /**
+     * {@inheritDoc}<br>
      * Gives a moderate attack bonus for melee units.
      *
      * @return attack bonus as int
@@ -39,6 +40,7 @@ public class InfantryUnit extends Unit {
     }
 
     /**
+     * {@inheritDoc}<br>
      * Gives a low resistance bonus for melee units.
      *
      * @return  resistance bonus as int

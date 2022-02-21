@@ -90,11 +90,15 @@ public abstract class Unit {
     }
 
     /**
+     * Attack bonus of the unit.
+     *
      * @return  AttackBonus as int
      */
     public abstract int getAttackBonus();
 
     /**
+     * Resistance bonus of the unit.
+     *
      * @return  ResistanceBonus as int
      */
     public abstract int getResistBonus();
