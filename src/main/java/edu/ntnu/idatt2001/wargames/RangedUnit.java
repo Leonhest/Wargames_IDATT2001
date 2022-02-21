@@ -2,7 +2,8 @@ package edu.ntnu.idatt2001.wargames;
 
 /**
  * Represents a ranged unit in a Field army.
- * A ranged unit that possesses high attack bonus.
+ * A ranged unit that possesses high attack bonus and
+ * variable resistance bonus depending on range.
  */
 public class RangedUnit extends Unit{
 
@@ -43,7 +44,7 @@ public class RangedUnit extends Unit{
 
     /**
      * {@inheritDoc}<br>
-     * Gives a variable armor value based on opponent range.
+     * Gives a variable resistance value based on opponent range.
      * Calculated using number of attacks by opponents.
      * <ul>
      *     <li>6 for first hit</li>
@@ -51,16 +52,17 @@ public class RangedUnit extends Unit{
      *     <li>2 for remaining hits</li>
      * </ul>
      *
-     * @return Armor bonus as int
+     * @return Resistance bonus as int
      */
     @Override
     public int getResistBonus() {
-        numAttack += 1;
 
-        if(numAttack == 1){
+        if(numAttack == 0){
+            numAttack += 1;
             return 6;
         }
-        else if(numAttack == 2){
+        else if(numAttack == 1){
+            numAttack += 1;
             return 4;
         }
         else{
