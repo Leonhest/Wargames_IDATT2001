@@ -1,4 +1,4 @@
-package edu.ntnu.leon.wargames;
+package edu.ntnu.idatt2001.wargames;
 
 /**
  * Represents a Unit in a Field army.
@@ -15,7 +15,7 @@ public abstract class Unit {
      *
      * @param name      Unit name as String
      * @param health    Unit health as int
-     * @param attack    Unit attack damage as int
+     * @param attack    Unit attack value as int
      * @param armor     Unit armor value as int
      */
     public Unit(String name, int health, int attack, int armor) {
