@@ -44,9 +44,30 @@ public class Battle {
         if(armyOne.hasUnits()){
             return armyOne;
         }
-        else{
+        else if(armyTwo.hasUnits()){
             return armyTwo;
         }
+        else{
+            return new Army("Tie");
+        }
+    }
+
+    /**
+     * Gets armyOne.
+     *
+     * @return armyOne
+     */
+    public Army getArmyOne() {
+        return armyOne;
+    }
+
+    /**
+     * Gets armyTwo.
+     *
+     * @return armyTwo
+     */
+    public Army getArmyTwo() {
+        return armyTwo;
     }
 
     /**
@@ -56,8 +77,8 @@ public class Battle {
      */
     @Override
     public String toString() {
-        return "Battle: " + '\'' +
-                armyOne + '\'' + "VS" + '\'' +
+        return "Battle: " + '\n' +
+                armyOne + '\n' + "VS" + '\n' +
                 armyTwo;
     }
 }

@@ -31,7 +31,7 @@ public class Army {
      */
     public Army(String name, List<Unit> units) {
         this.name = name;
-        this.units = units;
+        this.units = new ArrayList<>(units);
     }
 
     /**
@@ -110,7 +110,7 @@ public class Army {
      */
     @Override
     public String toString() {
-        return name + '\'' +
+        return name + '\n' +
                 "units:" + units;
     }
 
