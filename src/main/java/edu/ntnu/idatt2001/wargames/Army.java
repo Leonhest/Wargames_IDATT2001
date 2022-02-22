@@ -1,5 +1,6 @@
 package edu.ntnu.idatt2001.wargames;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -19,6 +20,7 @@ public class Army {
      */
     public Army(String name) {
         this.name = name;
+        this.units = new ArrayList<>();
     }
 
     /**
@@ -74,8 +76,13 @@ public class Army {
      * @return  random unit
      */
     public Unit getRandom(){
-        Random rand = new Random();
-        return units.get(rand.nextInt(units.size()));
+        if(this.hasUnits()){
+            Random rand = new Random();
+            return units.get(rand.nextInt(units.size()));
+        }
+        else{
+            throw new IllegalStateException("Army is empty");
+        }
     }
 
     /**
