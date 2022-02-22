@@ -7,7 +7,7 @@ package edu.ntnu.idatt2001.wargames;
  */
 public class RangedUnit extends Unit{
 
-    private int numAttack = 0;
+    private int numOfDefenses = 0;
 
     /**
      * Initializes a RangedUnit object with an attack value of 15 and an armor value of 8.
@@ -57,17 +57,27 @@ public class RangedUnit extends Unit{
     @Override
     public int getResistBonus() {
 
-        if(numAttack == 0){
-            numAttack += 1;
+        if(numOfDefenses == 0){
+            numOfDefenses += 1;
             return 6;
         }
-        else if(numAttack == 1){
-            numAttack += 1;
+        else if(numOfDefenses == 1){
+            numOfDefenses += 1;
             return 4;
         }
         else{
             return 2;
         }
+    }
+
+    /**
+     * Sets number of defenses from attacks.
+     *
+     * Used for testing
+     * @param numOfDefenses     Number of defenses as int
+     */
+    public void setNumOfDefenses(int numOfDefenses){
+        this.numOfDefenses = numOfDefenses;
     }
 
 }

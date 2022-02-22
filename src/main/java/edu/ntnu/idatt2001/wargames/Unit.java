@@ -19,6 +19,9 @@ public abstract class Unit {
      * @param armor     Unit armor value as int
      */
     public Unit(String name, int health, int attack, int armor) {
+        if(health <= 0 | attack < 0 | armor < 0){
+            throw new IllegalArgumentException("Stats cannot be negative");
+        }
         this.name = name;
         this.health = health;
         this.attack = attack;
@@ -81,12 +84,11 @@ public abstract class Unit {
      */
     @Override
     public String toString() {
-        return "Unit{" +
-                "name='" + name + '\'' +
-                ", health=" + health +
-                ", attack=" + attack +
-                ", armor=" + armor +
-                '}';
+        return
+                name + '\'' +
+                "health: " + health + "\"" +
+                "attack: " + attack + "\"" +
+                "armor: " + armor;
     }
 
     /**

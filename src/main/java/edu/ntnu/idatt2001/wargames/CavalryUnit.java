@@ -58,4 +58,13 @@ public class CavalryUnit extends Unit{
         return 1;
     }
 
+    /**
+     * Sets number of attacks done
+     *
+     * Used for testing
+     * @param numAttack     Number of defenses as int
+     */
+    public void setNumAttack(int numAttack){
+        this.numAttack = numAttack;
+    }
 }
