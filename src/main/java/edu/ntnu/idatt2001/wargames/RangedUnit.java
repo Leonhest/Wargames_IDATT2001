@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.wargames;
 
 /**
- * Represents a ranged unit in a Field army.
+ * Represents a ranged unit in an army.
  * A ranged unit that possesses high attack bonus and
  * variable resistance bonus depending on range.
  */

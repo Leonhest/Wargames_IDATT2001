@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.wargames;
 
 /**
- * Represents a cavalry unit in a Field army.
+ * Represents a cavalry unit in an army.
  * A cavalry unit that possesses variable attack bonus depending on attack type.
  */
 public class CavalryUnit extends Unit{

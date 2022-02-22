@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.wargames;
 
 /**
- * Represents a Unit in a Field army.
+ * Represents a Unit in an army.
  * Contains necessary unit stats, including methods for attacking.
  */
 public abstract class Unit {

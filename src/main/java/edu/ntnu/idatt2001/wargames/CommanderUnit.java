@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.wargames;
 
 /**
- * Represents a Commander unit in a Field army.
+ * Represents a Commander unit in an army.
  * A Commander unit is a stronger unit of type {@link CavalryUnit}
  */
 public class CommanderUnit extends CavalryUnit{

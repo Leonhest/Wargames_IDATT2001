@@ -1,7 +1,7 @@
 package edu.ntnu.idatt2001.wargames;
 
 /**
- * Represents an infantry unit in a Field army.
+ * Represents an infantry unit in an army.
  * A melee unit that possesses moderate attack bonus.
  */
 public class InfantryUnit extends Unit {
