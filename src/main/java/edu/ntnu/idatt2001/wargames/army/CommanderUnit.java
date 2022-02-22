@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.wargames;
+package edu.ntnu.idatt2001.wargames.army;
 
 /**
  * Represents a Commander unit in an army.

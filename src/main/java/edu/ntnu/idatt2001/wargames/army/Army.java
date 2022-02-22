@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.wargames;
+package edu.ntnu.idatt2001.wargames.army;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,10 +110,8 @@ public class Army {
      */
     @Override
     public String toString() {
-        return "Army{" +
-                "name='" + name + '\'' +
-                ", units=" + units +
-                '}';
+        return name + '\'' +
+                "units:" + units;
     }
 
     /**

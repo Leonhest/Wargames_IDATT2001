@@ -1,5 +1,9 @@
 package edu.ntnu.idatt2001.wargames;
 
+import edu.ntnu.idatt2001.wargames.army.Army;
+import edu.ntnu.idatt2001.wargames.army.CavalryUnit;
+import edu.ntnu.idatt2001.wargames.army.InfantryUnit;
+import edu.ntnu.idatt2001.wargames.army.Unit;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
