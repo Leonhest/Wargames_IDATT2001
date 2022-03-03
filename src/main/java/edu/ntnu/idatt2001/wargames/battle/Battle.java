@@ -31,16 +31,27 @@ public class Battle {
         while(armyOne.hasUnits() && armyTwo.hasUnits()){
             Unit fighter1 = armyOne.getRandom();
             Unit fighter2 = armyTwo.getRandom();
+
             fighter1.attack(fighter2);
+
             if(fighter2.getHealth() <= 0){
                 armyTwo.remove(fighter2);
-                continue;
+
+                if(!armyTwo.hasUnits()){
+                    break;
+                }
+                else {
+                    fighter1 = armyOne.getRandom();
+                    fighter2 = armyTwo.getRandom();
+                }
             }
+
             fighter2.attack(fighter1);
             if(fighter1.getHealth() <= 0){
                 armyOne.remove(fighter1);
             }
         }
+
         if(armyOne.hasUnits()){
             return armyOne;
         }

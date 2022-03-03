@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.wargames;
+package edu.ntnu.idatt2001.wargames.army;
 
 import edu.ntnu.idatt2001.wargames.army.RangedUnit;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +18,7 @@ class RangedUnitTest {
 
         @Test
         @DisplayName("Simple Constructor initializes correctly")
-        void SimpleConstructorInitializesCorrectly() {
+        void Simple_Constructor_Initializes_Correctly() {
             //Arrange:
             String name = "Archer";
             int health = 50;
@@ -33,7 +33,7 @@ class RangedUnitTest {
 
         @Test
         @DisplayName("General Constructor initializes correctly")
-        void GeneralConstructorInitializesCorrectly() {
+        void General_Constructor_Initializes_Correctly() {
             //Arrange:
             String name = "Archer";
             int health = 50;
@@ -51,7 +51,7 @@ class RangedUnitTest {
         @ParameterizedTest
         @ValueSource(ints = {0, -1, -30})
         @DisplayName("Simple Constructor Throws IllegalArgumentException for 0 health or lower")
-        void SimpleConstructorThrowsIllegalArgumentException(int health) {
+        void Simple_Constructor_Throws_IllegalArgumentException(int health) {
             //Arrange:
             String name = "Archer";
             //Act
@@ -69,7 +69,7 @@ class RangedUnitTest {
                 //0 health
                 "health, 1, 1, 0"})
         @DisplayName("General Constructor Throws IllegalArgumentException for negative stats and 0 health")
-        void GeneralConstructorThrowsIllegalArgumentException(String placeholder, int attack, int armor, int health) {
+        void General_Constructor_Throws_IllegalArgumentException(String placeholder, int attack, int armor, int health) {
             //Arrange:
             String name = "Archer";
             //Act
@@ -87,7 +87,7 @@ class RangedUnitTest {
 
         @Test
         @DisplayName("getAttackBonus returns 3")
-        void getAttackBonusReturns3() {
+        void getAttackBonus_Returns_3() {
             //Arrange
             String name = "Archer";
             int attackBonus = 3;
@@ -103,7 +103,7 @@ class RangedUnitTest {
                     "2, 2",
                     "3, 2"})
         @DisplayName("getResistBonus returns 6 then 4 then 2")
-        void getResistBonusReturns6Then4Then2(int numOfDefenses, int expectedResistBonus) {
+        void getResistBonus_Returns_6_Then_4_Then_2(int numOfDefenses, int expectedResistBonus) {
             //Arrange
             String name = "Archer";
             int health = 12;
@@ -119,7 +119,7 @@ class RangedUnitTest {
 
         @Test
         @DisplayName("setHealth set the correct health")
-        void setHealthSetsCorrectHealth() {
+        void setHealth_Sets_Correct_Health() {
             //Arrange
             String name = "Archer";
             int health = 10;
@@ -133,7 +133,7 @@ class RangedUnitTest {
 
         @Test
         @DisplayName("getName returns correct name")
-        void getNameReturnsCorrectName(){
+        void getName_Returns_Correct_Name(){
             //Arrange
             String name = "Archer";
             int health = 50;
@@ -148,7 +148,7 @@ class RangedUnitTest {
 
         @Test
         @DisplayName("getHealth returns correct health")
-        void getHealthReturnsCorrectHealth(){
+        void getHealth_Returns_Correct_Health(){
             //Arrange
             String name = "Archer";
             int health = 50;
@@ -163,7 +163,7 @@ class RangedUnitTest {
 
         @Test
         @DisplayName("getAttack returns correct attack value")
-        void getAttackReturnsCorrectAttack(){
+        void getAttack_Returns_Correct_Attack(){
             //Arrange
             String name = "Archer";
             int health = 50;
@@ -178,7 +178,7 @@ class RangedUnitTest {
 
         @Test
         @DisplayName("getArmor returns correct armor value")
-        void getArmorReturnsCorrectArmor(){
+        void getArmor_Returns_Correct_Armor(){
             //Arrange
             String name = "Archer";
             int health = 50;
@@ -198,7 +198,7 @@ class RangedUnitTest {
                 "2, 42",
                 "3, 42"})
     @DisplayName("Attack deals correct damage to enemy")
-    void attackDealsCorrectDamage(int numOfDefenses, int expectedHealth){
+    void attack_Deals_Correct_Damage(int numOfDefenses, int expectedHealth){
         //Arrange
         String name1 = "Allied archer";
         String name2 = "Enemy archer";

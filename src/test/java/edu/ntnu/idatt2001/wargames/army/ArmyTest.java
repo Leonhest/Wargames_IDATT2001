@@ -1,4 +1,4 @@
-package edu.ntnu.idatt2001.wargames;
+package edu.ntnu.idatt2001.wargames.army;
 
 import edu.ntnu.idatt2001.wargames.army.Army;
 import edu.ntnu.idatt2001.wargames.army.CavalryUnit;
@@ -21,7 +21,7 @@ class ArmyTest {
 
         @Test
         @DisplayName("Simple Constructor initializes correctly")
-        void SimpleConstructorInitializesCorrectly() {
+        void Simple_Constructor_Initializes_Correctly() {
             //Arrange:
             String name = "Army";
             //Act
@@ -33,7 +33,7 @@ class ArmyTest {
 
         @Test
         @DisplayName("General Constructor initializes correctly")
-        void GeneralConstructorInitializesCorrectly() {
+        void General_Constructor_Initializes_Correctly() {
             //Arrange:
             String name = "Army";
             List<Unit> units = new ArrayList<>();
@@ -50,7 +50,7 @@ class ArmyTest {
 
     @Test
     @DisplayName("add places unit in army")
-    void addPlacesUnitInArmy() {
+    void add_Places_Unit_In_Army() {
         //Arrange
         String name = "Army";
         var knight = new CavalryUnit("Knight", 50);
@@ -66,7 +66,7 @@ class ArmyTest {
 
     @Test
     @DisplayName("addAll places all units in army")
-    void addAllPlacesAllUnitsInArmy() {
+    void addAll_Places_All_Units_In_Army() {
         //Arrange:
         String name = "Army";
         List<Unit> units = new ArrayList<>();
@@ -81,7 +81,7 @@ class ArmyTest {
 
     @Test
     @DisplayName("remove should remove unit from army")
-    void removeShouldRemoveUnitFromArmy() {
+    void remove_Should_Remove_Unit_From_Army() {
         //Arrange:
         String name = "Army";
         List<Unit> units = new ArrayList<>();
@@ -100,7 +100,7 @@ class ArmyTest {
 
         @Test
         @DisplayName("hasUnits returns true for non-empty army")
-        void hasUnitsReturnsTrueForNonEmptyArmy() {
+        void hasUnits_Returns_True_For_NonEmpty_Army() {
             //Arrange:
             String name = "Army";
             List<Unit> units = new ArrayList<>();
@@ -115,7 +115,7 @@ class ArmyTest {
 
         @Test
         @DisplayName("hasUnits returns false for empty army")
-        void hasUnitsReturnsFalseForEmptyArmy() {
+        void hasUnits_Returns_False_For_Empty_Army() {
             //Arrange:
             String name = "Army";
             //Act
@@ -130,7 +130,7 @@ class ArmyTest {
 
         @Test
         @DisplayName("getRandom returns unit on non-empty army")
-        void getRandomReturnsUnitOnNonEmptyArmy() {
+        void getRandom_Returns_Unit_On_NonEmpty_Army() {
             //Arrange:
             String name = "Army";
             List<Unit> units = new ArrayList<>();
@@ -146,7 +146,7 @@ class ArmyTest {
 
         @Test
         @DisplayName("getRandom throw IllegalStatException on empty army")
-        void getRandomThrowsIllegalStateExceptionOnEmptyArmy() {
+        void getRandom_Throws_IllegalStateException_On_EmptyArmy() {
             //Arrange:
             String name = "Army";
             //Act
@@ -166,7 +166,7 @@ class ArmyTest {
 
         @Test
         @DisplayName("getAllUnits returns all units in army")
-        void getAllUnitsReturnsAllUnitsInArmy() {
+        void getAllUnits_Returns_All_Units_In_Army() {
             //Arrange:
             String name = "Army";
             List<Unit> units = new ArrayList<>();
@@ -180,7 +180,7 @@ class ArmyTest {
 
         @Test
         @DisplayName("getName returns name of army")
-        void getNameReturnsNameOfArmy() {
+        void getName_Returns_Name_Of_Army() {
             //Arrange:
             String name = "Army";
             //Act
@@ -192,7 +192,7 @@ class ArmyTest {
 
     @Test
     @DisplayName("equals returns true for same army")
-    void equalsReturnsTrueForSameArmy() {
+    void equals_Returns_True_For_Same_Army() {
         //Arrange:
         String name = "Army";
         //Act

@@ -15,7 +15,7 @@ class BattleTest {
 
     @Test
     @DisplayName("Constructor initializes correctly")
-    void SimpleConstructorInitializesCorrectly() {
+    void Simple_Constructor_Initializes_Correctly() {
         //Arrange:
         var armyOne = new Army("ArmyOne");
         var armyTwo = new Army("ArmyTwo");
@@ -31,7 +31,7 @@ class BattleTest {
 
         @Test
         @DisplayName("simulate gives correct winner")
-        void simulateGivesCorrectWinner() {
+        void simulate_Gives_Correct_Winner() {
             //Arrange
             List<Unit> units1 = new ArrayList<>();
             units1.add(new CavalryUnit("Knight", 50));
@@ -41,8 +41,7 @@ class BattleTest {
             List<Unit> units2 = new ArrayList<>();
             units2.add(new RangedUnit("Archer", 40));
             units2.add(new CavalryUnit("Knight", 40));
-            units2.add(new RangedUnit("Trebuchet1", 80));
-            units2.add(new RangedUnit("Trebuchet2", 80));
+            units2.add(new RangedUnit("Trebuchet", 80));
             units2.add(new CommanderUnit("King Midas", 90));
 
             var armyOne = new Army("ArmyOne", units1);
@@ -51,12 +50,13 @@ class BattleTest {
             var battle = new Battle(armyOne, armyTwo);
             var winner = battle.simulate();
             //Assert
+            System.out.println(winner);
             assertThat(winner, Matchers.either(Matchers.is(armyOne)).or(Matchers.is(armyTwo)).or(Matchers.is(new Army("Tie"))));
         }
 
         @Test
         @DisplayName("simulate empty armies results in tie")
-        void simulateEmptyArmiesResultsInTie() {
+        void simulate_Empty_Armies_Results_In_Tie() {
             //Arrange
             var armyOne = new Army("ArmyOne");
             var armyTwo = new Army("ArmyTwo");
@@ -73,7 +73,7 @@ class BattleTest {
 
         @Test
         @DisplayName("getArmyOne returns armyOne")
-        void getArmyOneReturnsArmyOne() {
+        void getArmyOne_Returns_ArmyOne() {
             //Arrange:
             String name = "ArmyOne";
             String name2 = "ArmyTwo";
@@ -87,7 +87,7 @@ class BattleTest {
 
         @Test
         @DisplayName("getArmyTwo returns armyTwo")
-        void getArmyTwoReturnsArmyTwo() {
+        void getArmyTwo_Returns_ArmyTwo() {
             //Arrange:
             String name = "ArmyOne";
             String name2 = "ArmyTwo";
