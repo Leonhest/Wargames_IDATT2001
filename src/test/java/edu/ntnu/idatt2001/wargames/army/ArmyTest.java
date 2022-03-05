@@ -190,15 +190,33 @@ class ArmyTest {
         }
     }
 
-    @Test
-    @DisplayName("equals returns true for same army")
-    void equals_Returns_True_For_Same_Army() {
-        //Arrange:
-        String name = "Army";
-        //Act
-        var army = new Army(name);
-        var army2 = new Army(name);
-        //Assert
-        assertTrue(army.equals(army2));
+    @Nested
+    class EqualsTest {
+
+
+        @Test
+        @DisplayName("equals returns true for same army")
+        void equals_Returns_True_For_Same_Army() {
+            //Arrange:
+            String name = "Army";
+            //Act
+            var army = new Army(name);
+            var army2 = new Army(name);
+            //Assert
+            assertTrue(army.equals(army2));
+        }
+
+        @Test
+        @DisplayName("equals returns false for different army")
+        void equals_Returns_False_For_Different_Army() {
+            //Arrange:
+            String name1 = "Army1";
+            String name2 = "Army2";
+            //Act
+            var army = new Army(name1);
+            var army2 = new Army(name2);
+            //Assert
+            assertFalse(army.equals(army2));
+        }
     }
 }

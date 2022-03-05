@@ -50,7 +50,6 @@ class BattleTest {
             var battle = new Battle(armyOne, armyTwo);
             var winner = battle.simulate();
             //Assert
-            System.out.println(winner);
             assertThat(winner, Matchers.either(Matchers.is(armyOne)).or(Matchers.is(armyTwo)).or(Matchers.is(new Army("Tie"))));
         }
 
