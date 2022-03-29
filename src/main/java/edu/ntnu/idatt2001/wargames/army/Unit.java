@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.wargames.army;
 
+import java.util.Objects;
+
 /**
  * Represents a Unit in an army.
  * Contains necessary unit stats, including methods for attacking.
@@ -100,7 +102,7 @@ public abstract class Unit {
                 name + '\n' +
                 "health: " + health + "\n" +
                 "attack: " + attack + "\n" +
-                "armor: " + armor;
+                "armor: " + armor + "\n";
     }
 
     /**
@@ -116,4 +118,28 @@ public abstract class Unit {
      * @return  ResistanceBonus as int
      */
     public abstract int getResistBonus();
+
+    /**
+     * Checks if a Unit equals another object.
+     *
+     * @param o object to be checked against
+     * @return  true if objects are equal
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Unit unit = (Unit) o;
+        return health == unit.health && attack == unit.attack && armor == unit.armor && Objects.equals(name, unit.name);
+    }
+
+    /**
+     * Generates a hashcode of the instance variables of Unit.
+     *
+     * @return hashcode as int
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, health, attack, armor);
+    }
 }

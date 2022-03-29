@@ -1,2 +1,7 @@
-edu/ntnu/leon/wargames/Unit.class
-edu/ntnu/leon/wargames/InfantryUnit.class
+edu/ntnu/idatt2001/wargames/army/InfantryUnit.class
+edu/ntnu/idatt2001/wargames/army/RangedUnit.class
+edu/ntnu/idatt2001/wargames/battle/Battle.class
+edu/ntnu/idatt2001/wargames/army/CavalryUnit.class
+edu/ntnu/idatt2001/wargames/army/Army.class
+edu/ntnu/idatt2001/wargames/army/CommanderUnit.class
+edu/ntnu/idatt2001/wargames/army/Unit.class

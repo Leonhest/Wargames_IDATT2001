@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,73 @@ class ArmyTest {
             assertEquals(units, army.getAllUnits());
 
         }
+
+        @Test
+        @DisplayName("File Constructor makes correct units")
+        void File_Constructor_Makes_Correct_Units() {
+            //Arrange:
+            CavalryUnit wolfRider = new CavalryUnit("Wolf Rider", 120);
+            File file = new File("src/test/resources/horde.csv");
+            //Act
+            var army = new Army(file);
+            //Assert
+            assertTrue(army.getAllUnits().contains(wolfRider));
+
+        }
+
+        @Test
+        @DisplayName("File Constructor makes correct size army")
+        void File_Constructor_Makes_Correct_Size_Army() {
+            //Arrange:
+            CavalryUnit wolfRider = new CavalryUnit("Wolf Rider", 120);
+            File file = new File("src/test/resources/horde.csv");
+            //Act
+            var army = new Army(file);
+            //Assert
+            assertEquals(4, army.getAllUnits().size());
+
+        }
+
+        @Test
+        @DisplayName("File Constructor throws IllegalArgumentException for invalid unit type")
+        void File_Constructor_Throws_IllegalArgumentException_for_Invalid_Unit_Type() {
+            //Arrange:
+            CavalryUnit wolfRider = new CavalryUnit("Wolf Rider", 120);
+            File file = new File("src/test/resources/invalid_horde.csv");
+            //Act
+            //Assert
+            assertThrows(IllegalArgumentException.class, () -> {
+                var army = new Army(file);;
+            });
+        }
+
+        @Test
+        @DisplayName("File Constructor throws IllegalArgumentException for nameless army")
+        void File_Constructor_Throws_IllegalArgumentException_For_Nameless_Army() {
+            //Arrange:
+            CavalryUnit wolfRider = new CavalryUnit("Wolf Rider", 120);
+            File file = new File("src/test/resources/nameless_horde.csv");
+            //Act
+            //Assert
+            assertThrows(IllegalArgumentException.class, () -> {
+                var army = new Army(file);;
+            });
+
+        }
+        @Test
+        @DisplayName("File Constructor throws IllegalArgumentException for blank health")
+        void File_Constructor_Throws_IllegalArgumentException_For_Blank_Health() {
+            //Arrange:
+            CavalryUnit wolfRider = new CavalryUnit("Wolf Rider", 120);
+            File file = new File("src/test/resources/null_horde.csv");
+            //Act
+            //Assert
+            assertThrows(IllegalArgumentException.class, () -> {
+                var army = new Army(file);;
+            });
+
+        }
+
     }
 
     @Nested

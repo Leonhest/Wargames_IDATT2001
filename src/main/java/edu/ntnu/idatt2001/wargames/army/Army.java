@@ -1,9 +1,15 @@
 package edu.ntnu.idatt2001.wargames.army;
 
-import java.util.ArrayList;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +45,57 @@ public class Army {
     }
 
     /**
+     * Initializes an Army object from a .csv file
+     * The .csv file contains army name on first row
+     * Repeating rows are units written in the format:
+     * UnitType,Name,Health
+     *
+     * @param file csv file with army
+     */
+    public Army(File file){
+        try (
+                Reader reader = Files.newBufferedReader(file.toPath());
+                CSVReader csvReader = new CSVReader(reader);
+        ) {
+
+            this.units = new ArrayList<>();
+            String[] fileLine;
+
+            if ((fileLine = csvReader.readNext()) != null && (fileLine.length == 1)) {
+                this.name = fileLine[0];
+            }
+            else throw new IllegalArgumentException("Army does not have a name");
+
+            while ((fileLine = csvReader.readNext()) != null) {
+
+                if(!(fileLine.length == 3) || fileLine[2].equals("")){
+                    throw new IllegalArgumentException("Missing unit attributes");
+                }
+
+                String name = fileLine[1];
+                int health = Integer.parseInt(fileLine[2]);
+
+                if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*infantry.*")){
+                    units.add(new InfantryUnit(name, health));
+                }
+                else if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*ranged.*")){
+                    units.add(new RangedUnit(name, health));
+                }
+                else if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*cavalry.*")){
+                    units.add(new CavalryUnit(name, health));
+                }
+                else if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*commander.*")){
+                    units.add(new CommanderUnit(name, health));
+                }
+                else throw new IllegalArgumentException("Invalid unit type");
+            }
+
+        } catch (IOException | CsvValidationException e) {
+            e.printStackTrace();
+        }
+
+    }
+        /**
      * Gets all {@link Unit} of type {@link InfantryUnit}
      *
      * @return Infantry units as a List

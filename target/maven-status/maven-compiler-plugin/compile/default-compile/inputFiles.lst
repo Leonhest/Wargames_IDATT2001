@@ -1,2 +1,7 @@
-/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/leon/wargames/Unit.java
-/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/leon/wargames/InfantryUnit.java
+/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/battle/Battle.java
+/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/army/CommanderUnit.java
+/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/army/Army.java
+/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/army/RangedUnit.java
+/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/army/Unit.java
+/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/army/CavalryUnit.java
+/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/army/InfantryUnit.java
