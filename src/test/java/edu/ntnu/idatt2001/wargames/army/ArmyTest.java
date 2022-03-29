@@ -140,7 +140,7 @@ class ArmyTest {
             army.add(archer);
             army.add(peasant2);
             //Act
-            army.armyToCsv("src/test/resources/saved_army.csv");
+            army.armyToCsv("src/test/resources/", "saved_army");
 
             //Assert
             assertTrue(tempFile.exists());
@@ -166,7 +166,7 @@ class ArmyTest {
             army.add(peasant2);
 
             //Act
-            army.armyToCsv("src/test/resources/equal_army.csv");
+            army.armyToCsv("src/test/resources/", "equal_army");
             var army2 = new Army(tempFile);
 
             //Assert

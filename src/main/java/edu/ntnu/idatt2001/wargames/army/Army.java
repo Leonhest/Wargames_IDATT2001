@@ -98,8 +98,16 @@ public class Army {
 
     }
 
-    public void armyToCsv(String path) {
-        File file = new File(path);
+    /**
+     * Saves an Army object to a .csv file
+     * The .csv file contains army name on first row
+     * Repeating rows are units written in the format:
+     * UnitType,Name,Health
+     *
+     * @param path file path to save location
+     */
+    public void armyToCsv(String path, String fileName) {
+        File file = new File(path+fileName+".csv");
         try (FileWriter output = new FileWriter(file);
              CSVWriter writer = new CSVWriter(output))
         {
