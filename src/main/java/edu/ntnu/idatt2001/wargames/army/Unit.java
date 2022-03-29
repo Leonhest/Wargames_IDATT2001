@@ -41,6 +41,7 @@ public abstract class Unit {
     }
 
     /**
+     * Gets name of unit.
      * @return Name as String
      */
     public String getName() {
@@ -48,6 +49,7 @@ public abstract class Unit {
     }
 
     /**
+     * Gets health of unit.
      * @return Health as int
      */
     public int getHealth() {
@@ -55,6 +57,7 @@ public abstract class Unit {
     }
 
     /**
+     * Gets attack of unit
      * @return Attack as int
      */
     public int getAttack() {
@@ -62,6 +65,7 @@ public abstract class Unit {
     }
 
     /**
+     * Gets armor of unit.
      * @return Armor as int
      */
     public int getArmor() {
@@ -69,12 +73,20 @@ public abstract class Unit {
     }
 
     /**
+     * Sets health of the unit.
+     * If negative health, set health to 0.
      * Sets health.
      *
      * @param health    New unit health as int
      */
     public void setHealth(int health) {
-        this.health = health;
+        if(health<0){
+            this.health = 0;
+        }
+        else{
+            this.health = health;
+        }
+
     }
 
     /**
@@ -92,14 +104,14 @@ public abstract class Unit {
     }
 
     /**
-     * Attack bonus of the unit.
+     * Gets attack bonus of the unit.
      *
      * @return  AttackBonus as int
      */
     public abstract int getAttackBonus();
 
     /**
-     * Resistance bonus of the unit.
+     * Gets resistance bonus of the unit.
      *
      * @return  ResistanceBonus as int
      */

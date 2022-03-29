@@ -73,7 +73,8 @@ public class RangedUnit extends Unit{
     /**
      * Sets number of defenses from attacks.
      *
-     * Used for testing
+     * Used for JUnit testing
+     *
      * @param numOfDefenses     Number of defenses as int
      */
     public void setNumOfDefenses(int numOfDefenses){

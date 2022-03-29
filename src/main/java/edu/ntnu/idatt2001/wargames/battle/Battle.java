@@ -37,13 +37,10 @@ public class Battle {
             if(fighter2.getHealth() <= 0){
                 armyTwo.remove(fighter2);
 
-                if(!armyTwo.hasUnits()){
-                    break;
-                }
-                else {
-                    fighter1 = armyOne.getRandom();
+                if(armyTwo.hasUnits()){
                     fighter2 = armyTwo.getRandom();
                 }
+                else break;
             }
 
             fighter2.attack(fighter1);

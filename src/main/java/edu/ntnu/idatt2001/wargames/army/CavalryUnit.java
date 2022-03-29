@@ -61,7 +61,8 @@ public class CavalryUnit extends Unit{
     /**
      * Sets number of attacks done
      *
-     * Used for testing
+     * Used for JUnit testing
+     *
      * @param numAttack     Number of defenses as int
      */
     public void setNumAttack(int numAttack){

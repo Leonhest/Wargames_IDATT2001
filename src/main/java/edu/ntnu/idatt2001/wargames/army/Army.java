@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * Represents an army.
@@ -31,7 +32,56 @@ public class Army {
      */
     public Army(String name, List<Unit> units) {
         this.name = name;
-        this.units = new ArrayList<>(units);
+        if(!units.contains(null)){
+            this.units = new ArrayList<>(units);
+        }
+        else throw new NullPointerException("A unit cannot be null");
+    }
+
+    /**
+     * Gets all {@link Unit} of type {@link InfantryUnit}
+     *
+     * @return Infantry units as a List
+     */
+    public List<Unit> getInfantryUnits(){
+        return units.stream()
+                .filter(e -> e instanceof InfantryUnit)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Gets all {@link Unit} of type {@link RangedUnit}
+     *
+     * @return Ranged units as a List
+     */
+    public List<Unit> getRangedUnits(){
+        return units.stream()
+                .filter(e -> e instanceof RangedUnit)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Gets all {@link Unit} of type {@link CavalryUnit}
+     * This does not include Units of type{@link CommanderUnit}
+     *
+     * @return Cavalry units as a List
+     */
+    public List<Unit> getCavalryUnits(){
+        return units.stream()
+                .filter(e -> e instanceof CavalryUnit)
+                .filter(e -> !(e instanceof CommanderUnit))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Gets all {@link Unit} of type {@link CommanderUnit}
+     *
+     * @return Commander units as a List
+     */
+    public List<Unit> getCommanderUnits(){
+        return units.stream()
+                .filter(e -> e instanceof CommanderUnit)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -40,7 +90,11 @@ public class Army {
      * @param unit unit to be added
      */
     public void add(Unit unit){
-        this.units.add(unit);
+        if(unit != null){
+            this.units.add(unit);
+        }
+        else throw new NullPointerException("A unit cannot be null");
+
     }
 
     /**
@@ -49,7 +103,10 @@ public class Army {
      * @param units list of units to be added
      */
     public void addAll(List<Unit> units){
-        this.units.addAll(units);
+        if(!units.contains(null)){
+            this.units.addAll(units);
+        }
+        else throw new NullPointerException("A unit cannot be null");
     }
 
     /**

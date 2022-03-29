@@ -4,6 +4,7 @@ import edu.ntnu.idatt2001.wargames.army.Army;
 import edu.ntnu.idatt2001.wargames.army.CavalryUnit;
 import edu.ntnu.idatt2001.wargames.army.InfantryUnit;
 import edu.ntnu.idatt2001.wargames.army.Unit;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ArmyTest {
@@ -48,20 +50,311 @@ class ArmyTest {
         }
     }
 
+    @Nested
+    class getInfantryUnitTest{
+
+
+        @Test
+        @DisplayName("getInfantryUnits returns list containing only InfantryUnit")
+        void getInfantryUnits_Returns_List_Containing_Only_InfantryUnit () {
+        //Arrange
+        String name = "Army";
+        var knight = new CavalryUnit("Knight", 50);
+        var peasant = new InfantryUnit("Peasant", 30);
+        var archer = new RangedUnit("Knight", 50);
+        var peasant2 = new InfantryUnit("Peasant2", 30);
+
+        var army = new Army(name);
+        army.add(knight);
+        army.add(peasant);
+        army.add(archer);
+        army.add(peasant2);
+        //Act
+        List<Unit> infantryUnits = army.getInfantryUnits();
+        //Assert
+        assertTrue(infantryUnits.stream().allMatch(e -> e instanceof InfantryUnit));
+        }
+
+        @Test
+        @DisplayName("getInfantryUnits returns list not containing other than InfantryUnit")
+        void getInfantryUnits_Returns_List_Not_Containing_Other_Than_InfantryUnit () {
+        //Arrange
+        String name = "Army";
+        var knight = new CavalryUnit("Knight", 50);
+        var peasant = new InfantryUnit("Peasant", 30);
+        var archer = new RangedUnit("Knight", 50);
+        var peasant2 = new InfantryUnit("Peasant2", 30);
+
+        var army = new Army(name);
+        army.add(knight);
+        army.add(peasant);
+        army.add(archer);
+        army.add(peasant2);
+        //Act
+        List<Unit> infantryUnits = army.getInfantryUnits();
+        //Assert
+        assertTrue(infantryUnits.stream().noneMatch(e -> e instanceof RangedUnit));
+        assertTrue(infantryUnits.stream().noneMatch(e -> e instanceof CavalryUnit));
+        }
+
+        @Test
+        @DisplayName("getInfantryUnits returns list of correct size")
+        void getInfantryUnits_Returns_List_Of_Correct_Size () {
+            //Arrange
+            String name = "Army";
+            var knight = new CavalryUnit("Knight", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var peasant2 = new InfantryUnit("Peasant2", 30);
+
+            var army = new Army(name);
+            army.add(knight);
+            army.add(peasant);
+            army.add(archer);
+            army.add(peasant2);
+            //Act
+            List<Unit> infantryUnits = army.getInfantryUnits();
+            //Assert
+            assertEquals(2, infantryUnits.size());
+        }
+    }
+
+    @Nested
+    class getRangedUnitTest{
+
+
+        @Test
+        @DisplayName("getRangedUnits returns list containing only RangedUnit")
+        void getRangedUnits_Returns_List_Containing_Only_RangedUnit () {
+            //Arrange
+            String name = "Army";
+            var knight = new CavalryUnit("Knight", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var archer2 = new RangedUnit("Archer2", 30);
+
+            var army = new Army(name);
+            army.add(knight);
+            army.add(peasant);
+            army.add(archer);
+            army.add(archer2);
+            //Act
+            List<Unit> rangedUnits = army.getRangedUnits();
+            //Assert
+            assertTrue(rangedUnits.stream().allMatch(e -> e instanceof RangedUnit));
+        }
+
+        @Test
+        @DisplayName("getRangedUnits returns list not containing other than RangedUnit")
+        void getRangedUnits_Returns_List_Not_Containing_Other_Than_RangedUnit () {
+            //Arrange
+            String name = "Army";
+            var knight = new CavalryUnit("Knight", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var archer2 = new RangedUnit("Archer2", 30);
+
+            var army = new Army(name);
+            army.add(knight);
+            army.add(peasant);
+            army.add(archer);
+            army.add(archer2);
+            //Act
+            List<Unit> rangedUnits = army.getRangedUnits();
+            //Assert
+            assertTrue(rangedUnits.stream().noneMatch(e -> e instanceof InfantryUnit));
+            assertTrue(rangedUnits.stream().noneMatch(e -> e instanceof CavalryUnit));
+        }
+
+        @Test
+        @DisplayName("getRangedUnits returns list of correct size")
+        void getRangedUnits_Returns_List_Of_Correct_Size () {
+            //Arrange
+            String name = "Army";
+            var knight = new CavalryUnit("Knight", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var archer2 = new RangedUnit("Archer2", 30);
+
+            var army = new Army(name);
+            army.add(knight);
+            army.add(peasant);
+            army.add(archer);
+            army.add(archer2);
+            //Act
+            List<Unit> rangedUnits = army.getRangedUnits();
+            //Assert
+            assertEquals(2, rangedUnits.size());
+        }
+    }
+
+    @Nested
+    class getCavalryUnitTest{
+
+
+        @Test
+        @DisplayName("getCavalryUnits returns list containing only CavalryUnit")
+        void getCavalryUnits_Returns_List_Containing_Only_CavalryUnit () {
+            //Arrange
+            String name = "Army";
+            var knight = new CavalryUnit("Knight", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var knight2 = new CavalryUnit("Knight2", 30);
+
+            var army = new Army(name);
+            army.add(knight);
+            army.add(peasant);
+            army.add(archer);
+            army.add(knight2);
+            //Act
+            List<Unit> cavalryUnits = army.getCavalryUnits();
+            //Assert
+            assertTrue(cavalryUnits.stream().allMatch(e -> e instanceof CavalryUnit));
+        }
+
+        @Test
+        @DisplayName("getCavalryUnits returns list not containing other than CavalryUnit")
+        void getCavalryUnits_Returns_List_Not_Containing_Other_Than_CavalryUnit () {
+            //Arrange
+            String name = "Army";
+            var knight = new CavalryUnit("Knight", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var knight2 = new CavalryUnit("Knight2", 30);
+
+            var army = new Army(name);
+            army.add(knight);
+            army.add(peasant);
+            army.add(archer);
+            army.add(knight2);
+            //Act
+            List<Unit> cavalryUnits = army.getCavalryUnits();
+            //Assert
+            assertTrue(cavalryUnits.stream().noneMatch(e -> e instanceof InfantryUnit));
+            assertTrue(cavalryUnits.stream().noneMatch(e -> e instanceof RangedUnit));
+            assertTrue(cavalryUnits.stream().noneMatch(e -> e instanceof CommanderUnit));
+        }
+
+        @Test
+        @DisplayName("getCavalryUnits returns list of correct size")
+        void getCavalryUnits_Returns_List_Of_Correct_Size () {
+            //Arrange
+            String name = "Army";
+            var knight = new CavalryUnit("Knight", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var knight2 = new CavalryUnit("Knight2", 30);
+
+            var army = new Army(name);
+            army.add(knight);
+            army.add(peasant);
+            army.add(archer);
+            army.add(knight2);
+            //Act
+            List<Unit> cavalryUnits = army.getCavalryUnits();
+            //Assert
+            assertEquals(2, cavalryUnits.size());
+        }
+    }
+
+    @Nested
+    class getCommanderUnitTest{
+
+
+        @Test
+        @DisplayName("getCommanderUnits returns list containing only CommanderUnit")
+        void getCommanderUnits_Returns_List_Containing_Only_CommanderUnit () {
+            //Arrange
+            String name = "Army";
+            var king = new CommanderUnit("King", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var knight2 = new CavalryUnit("Knight2", 30);
+            var queen = new CommanderUnit("Queen", 30);
+
+            var army = new Army(name);
+            army.add(king);
+            army.add(peasant);
+            army.add(archer);
+            army.add(knight2);
+            army.add(queen);
+            //Act
+            List<Unit> commanderUnits = army.getCommanderUnits();
+            //Assert
+            assertTrue(commanderUnits.stream().allMatch(e -> e instanceof CommanderUnit));
+        }
+
+        @Test
+        @DisplayName("getCommanderUnits returns list not containing other than CommanderUnit")
+        void getCommanderUnits_Returns_List_Not_Containing_Other_Than_CommanderUnit () {
+            //Arrange
+            String name = "Army";
+            var king = new CommanderUnit("King", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var knight2 = new CavalryUnit("Knight2", 30);
+            var queen = new CommanderUnit("Queen", 30);
+
+            var army = new Army(name);
+            army.add(king);
+            army.add(peasant);
+            army.add(archer);
+            army.add(knight2);
+            army.add(queen);
+            //Act
+            List<Unit> commanderUnits = army.getCommanderUnits();
+            //Assert
+            assertTrue(commanderUnits.stream().noneMatch(e -> e instanceof RangedUnit));
+            assertTrue(commanderUnits.stream().noneMatch(e -> e instanceof InfantryUnit));
+            assertTrue(commanderUnits.stream().noneMatch(e -> e instanceof CavalryUnit && !(e instanceof CommanderUnit)));
+        }
+
+        @Test
+        @DisplayName("getCommanderUnits returns list of correct size")
+        void getCommanderUnits_Returns_List_Of_Correct_Size () {
+            //Arrange
+            String name = "Army";
+            var king = new CommanderUnit("King", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var knight2 = new CavalryUnit("Knight2", 30);
+            var queen = new CommanderUnit("Queen", 30);
+
+            var army = new Army(name);
+            army.add(king);
+            army.add(peasant);
+            army.add(archer);
+            army.add(knight2);
+            army.add(queen);
+            //Act
+            List<Unit> commanderUnits = army.getCommanderUnits();
+            //Assert
+            assertEquals(2, commanderUnits.size());
+        }
+    }
+
     @Test
     @DisplayName("add places unit in army")
     void add_Places_Unit_In_Army() {
         //Arrange
         String name = "Army";
-        var knight = new CavalryUnit("Knight", 50);
+        var king = new CommanderUnit("King", 50);
         var peasant = new InfantryUnit("Peasant", 30);
-        //Act
+        var archer = new RangedUnit("Knight", 50);
+        var knight2 = new CavalryUnit("Knight2", 30);
+        var queen = new CommanderUnit("Queen", 30);
+
         var army = new Army(name);
-        army.add(knight);
+        army.add(king);
         army.add(peasant);
+        army.add(archer);
+        army.add(knight2);
+        army.add(queen);
+        //Act
+        List<Unit> commanderUnits = army.getCommanderUnits();
         //Assert
-        assertEquals(knight, army.getAllUnits().get(0));
-        assertEquals(peasant, army.getAllUnits().get(1));
+        assertEquals(2, commanderUnits.size());
     }
 
     @Test
