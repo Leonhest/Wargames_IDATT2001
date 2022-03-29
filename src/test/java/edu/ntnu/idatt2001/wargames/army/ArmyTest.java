@@ -59,6 +59,7 @@ class ArmyTest {
             //Act
             var army = new Army(file);
             //Assert
+            System.out.println(army);
             assertTrue(army.getAllUnits().contains(wolfRider));
 
         }
@@ -116,6 +117,62 @@ class ArmyTest {
 
         }
 
+    }
+
+    @Nested
+    class armyToCsvTest{
+
+        @Test
+        @DisplayName("Army is saved to correct path")
+        void Army_Is_Saved_To_Correct_Path(){
+            //Arrange
+            File tempFile = new File("src/test/resources/saved_army.csv");
+            tempFile.delete();
+            String name = "Army1";
+            var knight = new CavalryUnit("Knight", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var peasant2 = new InfantryUnit("Peasant2", 30);
+
+            var army = new Army(name);
+            army.add(knight);
+            army.add(peasant);
+            army.add(archer);
+            army.add(peasant2);
+            //Act
+            army.armyToCsv("src/test/resources/saved_army.csv");
+
+            //Assert
+            assertTrue(tempFile.exists());
+
+        }
+
+        @Test
+        @DisplayName("Army Csv is identical to object")
+        void Army_Csv_Is_Identical_to_Object(){
+            //Arrange
+            File tempFile = new File("src/test/resources/equal_army.csv");
+            tempFile.delete();
+            String name = "Army1";
+            var knight = new CavalryUnit("Knight", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var peasant2 = new InfantryUnit("Peasant2", 30);
+
+            var army = new Army(name);
+            army.add(knight);
+            army.add(peasant);
+            army.add(archer);
+            army.add(peasant2);
+
+            //Act
+            army.armyToCsv("src/test/resources/equal_army.csv");
+            var army2 = new Army(tempFile);
+
+            //Assert
+            assertEquals(army, army2);
+
+        }
     }
 
     @Nested

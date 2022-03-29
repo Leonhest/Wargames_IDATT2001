@@ -1,10 +1,12 @@
 package edu.ntnu.idatt2001.wargames.army;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -95,6 +97,28 @@ public class Army {
         }
 
     }
+
+    public void armyToCsv(String path) {
+        File file = new File(path);
+        try (FileWriter output = new FileWriter(file);
+             CSVWriter writer = new CSVWriter(output))
+        {
+
+
+            String[] title = {this.name};
+            writer.writeNext(title);
+
+            for(Unit i: units){
+                String[] unitData = {i.getClass().getSimpleName(), i.getName(), String.valueOf(i.getHealth())};
+                writer.writeNext(unitData);
+            }
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
         /**
      * Gets all {@link Unit} of type {@link InfantryUnit}
      *
