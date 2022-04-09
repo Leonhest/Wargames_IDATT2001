@@ -55,9 +55,10 @@ public class Army {
      * @param file csv file with army
      */
     public Army(File file){
+        //TODO Change to 5 indices
         try (
                 Reader reader = Files.newBufferedReader(file.toPath());
-                CSVReader csvReader = new CSVReader(reader);
+                CSVReader csvReader = new CSVReader(reader)
         ) {
 
             this.units = new ArrayList<>();
