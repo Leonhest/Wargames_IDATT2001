@@ -1,5 +1,5 @@
 "The horde"
-"InfantryUnit","Ogre","100"
-RangedUnit,Troll,70
-CavalryUnit,Wolf Rider,120
-CommanderUnit,Dark Lord,300
+"InfantryUnit","Ogre","100","10","12"
+RangedUnit,Troll,70,10,12
+CavalryUnit,Wolf Rider,120,20,12
+CommanderUnit,Dark Lord,300,50,50

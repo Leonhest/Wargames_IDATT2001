@@ -1,5 +1,5 @@
 The horde 2
-InvalidUnit,Ogre,100
-RangedUnit,Troll,70
-CavalryUnit,Wolf Rider,120
-CommanderUnit,Dark Lord,300
+InvalidUnit,Ogre,100,10,10
+RangedUnit,Troll,70,10,13
+CavalryUnit,Wolf Rider,120,10,10
+CommanderUnit,Dark Lord,300,10,10

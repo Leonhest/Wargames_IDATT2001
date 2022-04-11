@@ -59,7 +59,6 @@ class ArmyTest {
             //Act
             var army = new Army(file);
             //Assert
-            System.out.println(army);
             assertTrue(army.getAllUnits().contains(wolfRider));
 
         }
@@ -86,7 +85,7 @@ class ArmyTest {
             //Act
             //Assert
             assertThrows(IllegalArgumentException.class, () -> {
-                var army = new Army(file);;
+                var army = new Army(file);
             });
         }
 
@@ -99,7 +98,7 @@ class ArmyTest {
             //Act
             //Assert
             assertThrows(IllegalArgumentException.class, () -> {
-                var army = new Army(file);;
+                var army = new Army(file);
             });
 
         }
@@ -112,7 +111,7 @@ class ArmyTest {
             //Act
             //Assert
             assertThrows(IllegalArgumentException.class, () -> {
-                var army = new Army(file);;
+                var army = new Army(file);
             });
 
         }
@@ -621,7 +620,7 @@ class ArmyTest {
             var army = new Army(name);
             var army2 = new Army(name);
             //Assert
-            assertTrue(army.equals(army2));
+            assertEquals(army, army2);
         }
 
         @Test
@@ -634,7 +633,7 @@ class ArmyTest {
             var army = new Army(name1);
             var army2 = new Army(name2);
             //Assert
-            assertFalse(army.equals(army2));
+            assertNotEquals(army, army2);
         }
     }
 }

@@ -55,7 +55,6 @@ public class Army {
      * @param file csv file with army
      */
     public Army(File file){
-        //TODO Change to 5 indices
         try (
                 Reader reader = Files.newBufferedReader(file.toPath());
                 CSVReader csvReader = new CSVReader(reader)
@@ -71,24 +70,26 @@ public class Army {
 
             while ((fileLine = csvReader.readNext()) != null) {
 
-                if(!(fileLine.length == 3) || fileLine[2].equals("")){
+                if(!(fileLine.length == 5) || fileLine[2].equals("")|| fileLine[3].equals("")|| fileLine[4].equals("")){
                     throw new IllegalArgumentException("Missing unit attributes");
                 }
 
                 String name = fileLine[1];
                 int health = Integer.parseInt(fileLine[2]);
+                int attack = Integer.parseInt(fileLine[3]);
+                int armor = Integer.parseInt(fileLine[4]);
 
                 if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*infantry.*")){
-                    units.add(new InfantryUnit(name, health));
+                    units.add(new InfantryUnit(name, health, attack, armor));
                 }
                 else if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*ranged.*")){
-                    units.add(new RangedUnit(name, health));
+                    units.add(new RangedUnit(name, health, attack, armor));
                 }
                 else if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*cavalry.*")){
-                    units.add(new CavalryUnit(name, health));
+                    units.add(new CavalryUnit(name, health, attack, armor));
                 }
                 else if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*commander.*")){
-                    units.add(new CommanderUnit(name, health));
+                    units.add(new CommanderUnit(name, health, attack, armor));
                 }
                 else throw new IllegalArgumentException("Invalid unit type");
             }
@@ -118,7 +119,7 @@ public class Army {
             writer.writeNext(title);
 
             for(Unit i: units){
-                String[] unitData = {i.getClass().getSimpleName(), i.getName(), String.valueOf(i.getHealth())};
+                String[] unitData = {i.getClass().getSimpleName(), i.getName(), String.valueOf(i.getHealth()), String.valueOf(i.getAttack()), String.valueOf(i.getArmor())};
                 writer.writeNext(unitData);
             }
 
