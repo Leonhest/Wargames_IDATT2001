@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2001.wargames.army;
 
 import edu.ntnu.idatt2001.wargames.army.RangedUnit;
+import edu.ntnu.idatt2001.wargames.battle.Terrain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -113,6 +114,34 @@ class RangedUnitTest {
             //Assert
             assertEquals(expectedResistBonus, archer.getResistBonus());
         }
+
+        @Test
+        @DisplayName("getAttackBonus returns 4 for hill terrain")
+        void getAttackBonus_Returns_4_For_Hill_Terrain() {
+            //Arrange
+            String name = "Archer";
+            int attackBonus = 4;
+            Terrain terrain = Terrain.HILL;
+            //Act
+            var archer = new RangedUnit(name,12);
+            archer.setTerrain(terrain);
+            //Assert
+            assertEquals(attackBonus, archer.getAttackBonus());
+        }
+
+        @Test
+        @DisplayName("getAttackBonus returns 2 for forrest terrain")
+        void getResistanceBonus_Returns_2_For_Forrest_Terrain() {
+            //Arrange
+            String name = "Archer";
+            int attackBonus = 2;
+            Terrain terrain = Terrain.FORREST;
+            //Act
+            var archer = new RangedUnit(name,12);
+            archer.setTerrain(terrain);
+            //Assert
+            assertEquals(attackBonus, archer.getAttackBonus());
+        }
     }
     @Nested
     class GetterAndSetter {
@@ -188,6 +217,39 @@ class RangedUnitTest {
             var archer = new RangedUnit(name, health, attack, armor);
             //Assert
             assertEquals(armor, archer.getArmor());
+
+        }
+
+        @Test
+        @DisplayName("getTerrain returns correct Terrain")
+        void getTerrain_Returns_Correct_Terrain(){
+            //Arrange
+            String name = "Archer";
+            int health = 50;
+            int attack = 10;
+            int armor = 12;
+            Terrain expectedTerrain = Terrain.DEFAULT;
+            //Act
+            var archer = new RangedUnit(name, health, attack, armor);
+            //Assert
+            assertEquals(expectedTerrain, archer.getTerrain());
+
+        }
+
+        @Test
+        @DisplayName("setTerrain sets correct Terrain")
+        void setTerrain_Sets_Correct_Terrain(){
+            //Arrange
+            String name = "Archer";
+            int health = 50;
+            int attack = 10;
+            int armor = 12;
+            Terrain expectedTerrain = Terrain.FORREST;
+            //Act
+            var archer = new RangedUnit(name, health, attack, armor);
+            archer.setTerrain(expectedTerrain);
+            //Assert
+            assertEquals(expectedTerrain, archer.getTerrain());
 
         }
     }

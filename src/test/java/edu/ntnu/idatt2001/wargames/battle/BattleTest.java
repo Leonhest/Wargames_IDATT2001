@@ -13,17 +13,42 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BattleTest {
 
-    @Test
-    @DisplayName("Constructor initializes correctly")
-    void Simple_Constructor_Initializes_Correctly() {
-        //Arrange:
-        var armyOne = new Army("ArmyOne");
-        var armyTwo = new Army("ArmyTwo");
-        //Act
-        var battle = new Battle(armyOne, armyTwo, Terrain.DEFAULT);
-        //Assert
-        assertEquals(armyOne, battle.getArmyOne());
-        assertEquals(armyTwo, battle.getArmyTwo());
+    @Nested
+    class ConstructorTest {
+
+        @Test
+        @DisplayName("Constructor initializes correctly")
+        void Simple_Constructor_Initializes_Correctly() {
+            //Arrange:
+            var armyOne = new Army("ArmyOne");
+            var armyTwo = new Army("ArmyTwo");
+            //Act
+            var battle = new Battle(armyOne, armyTwo, Terrain.DEFAULT);
+            //Assert
+            assertEquals(armyOne, battle.getArmyOne());
+            assertEquals(armyTwo, battle.getArmyTwo());
+        }
+
+        @Test
+        @DisplayName("Constructor sets correct terrain in units")
+        void Simple_Constructor_Sets_Correct_Terrain_In_Units() {
+            //Arrange:
+            var armyOne = new Army("ArmyOne");
+            var armyTwo = new Army("ArmyTwo");
+            var knight = new CavalryUnit("Knight", 50);
+            var peasant = new InfantryUnit("Peasant", 30);
+            var archer = new RangedUnit("Knight", 50);
+            var peasant2 = new InfantryUnit("Peasant2", 30);
+            armyOne.add(knight);
+            armyOne.add(peasant);
+            armyOne.add(archer);
+            armyOne.add(peasant2);
+            //Act
+            var battle = new Battle(armyOne, armyTwo, Terrain.PLAINS);
+            var unit = armyOne.getAllUnits().get(2);
+            //Assert
+            assertEquals(Terrain.PLAINS, unit.getTerrain());
+        }
     }
 
     @Nested

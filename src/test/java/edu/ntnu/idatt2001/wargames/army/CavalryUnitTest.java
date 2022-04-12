@@ -1,6 +1,7 @@
 package edu.ntnu.idatt2001.wargames.army;
 
 import edu.ntnu.idatt2001.wargames.army.CavalryUnit;
+import edu.ntnu.idatt2001.wargames.battle.Terrain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -113,6 +114,37 @@ class CavalryUnitTest {
             //Assert
             assertEquals(resistBonus, knight.getResistBonus());
         }
+
+        @ParameterizedTest(name = "{0} attacks and {1} attack bonus")
+        @CsvSource({"0, 8",
+                "1, 4",
+                "2, 4",})
+        @DisplayName("getAttackBonus returns 8 then 4 per attack for plains terrain")
+        void getAttackBonus_Returns_8_Then_4_For_Plains_Terrain(int numAttack, int expectedAttackBonus) {
+            //Arrange
+            String name = "Knight";
+            int health = 12;
+            //Act
+            var knight = new CavalryUnit(name,health);
+            knight.setTerrain(Terrain.PLAINS);
+            knight.setNumAttack(numAttack);
+            //Assert
+            assertEquals(expectedAttackBonus, knight.getAttackBonus());
+        }
+
+        @Test
+        @DisplayName("getResistBonus returns 0 for forrest terrain")
+        void getResistBonus_Returns_0_For_Forrest_Terrain() {
+            //Arrange
+            String name = "Knight";
+            int health = 12;
+            int resistBonus = 0;
+            //Act
+            var knight = new CavalryUnit(name,health);
+            knight.setTerrain(Terrain.FORREST);
+            //Assert
+            assertEquals(resistBonus, knight.getResistBonus());
+        }
     }
     @Nested
     class GetterAndSetter {
@@ -188,6 +220,39 @@ class CavalryUnitTest {
             var knight = new CavalryUnit(name, health, attack, armor);
             //Assert
             assertEquals(armor, knight.getArmor());
+
+        }
+
+        @Test
+        @DisplayName("getTerrain returns correct Terrain")
+        void getTerrain_Returns_Correct_Terrain(){
+            //Arrange
+            String name = "Knight";
+            int health = 50;
+            int attack = 10;
+            int armor = 12;
+            Terrain expectedTerrain = Terrain.DEFAULT;
+            //Act
+            var knight = new CavalryUnit(name, health, attack, armor);
+            //Assert
+            assertEquals(expectedTerrain, knight.getTerrain());
+
+        }
+
+        @Test
+        @DisplayName("setTerrain sets correct Terrain")
+        void setTerrain_Sets_Correct_Terrain(){
+            //Arrange
+            String name = "Knight";
+            int health = 50;
+            int attack = 10;
+            int armor = 12;
+            Terrain expectedTerrain = Terrain.FORREST;
+            //Act
+            var knight = new CavalryUnit(name, health, attack, armor);
+            knight.setTerrain(expectedTerrain);
+            //Assert
+            assertEquals(expectedTerrain, knight.getTerrain());
 
         }
     }

@@ -44,7 +44,7 @@ public class RangedUnit extends Unit{
         if(getTerrain() == Terrain.HILL){
             return 4;
         }
-        else if (getTerrain() == Terrain.FOREST){
+        else if (getTerrain() == Terrain.FORREST){
             return 2;
         }
         return 3;

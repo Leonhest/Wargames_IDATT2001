@@ -4,5 +4,5 @@ public enum Terrain {
     DEFAULT,
     HILL,
     PLAINS,
-    FOREST
+    FORREST
 }
