@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.wargames.army;
 
+import edu.ntnu.idatt2001.wargames.battle.Terrain;
+
 /**
  * Represents a cavalry unit in an army.
  * A cavalry unit that possesses variable attack bonus depending on attack type.
@@ -38,12 +40,19 @@ public class CavalryUnit extends Unit{
      */
     @Override
     public int getAttackBonus() {
+        if (getTerrain() == Terrain.PLAINS) {
+            if (numAttack == 0) {
+                numAttack += 1;
+                return 8;
+            } else {
+                return 4;
+            }
+        }
 
-        if(numAttack==0){
+        if (numAttack == 0) {
             numAttack += 1;
             return 6;
-        }
-        else{
+        } else {
             return 2;
         }
     }
@@ -55,6 +64,9 @@ public class CavalryUnit extends Unit{
      */
     @Override
     public int getResistBonus() {
+        if(getTerrain() == Terrain.FOREST){
+            return 0;
+        }
         return 1;
     }
 

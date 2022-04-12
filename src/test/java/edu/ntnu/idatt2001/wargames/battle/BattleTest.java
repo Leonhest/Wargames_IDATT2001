@@ -20,7 +20,7 @@ class BattleTest {
         var armyOne = new Army("ArmyOne");
         var armyTwo = new Army("ArmyTwo");
         //Act
-        var battle = new Battle(armyOne, armyTwo);
+        var battle = new Battle(armyOne, armyTwo, Terrain.DEFAULT);
         //Assert
         assertEquals(armyOne, battle.getArmyOne());
         assertEquals(armyTwo, battle.getArmyTwo());
@@ -47,7 +47,7 @@ class BattleTest {
             var armyOne = new Army("ArmyOne", units1);
             var armyTwo = new Army("ArmyTwo", units2);
             //Act
-            var battle = new Battle(armyOne, armyTwo);
+            var battle = new Battle(armyOne, armyTwo, Terrain.DEFAULT);
             var winner = battle.simulate();
             //Assert
             assertThat(winner, Matchers.either(Matchers.is(armyOne)).or(Matchers.is(armyTwo)).or(Matchers.is(new Army("Tie"))));
@@ -60,7 +60,7 @@ class BattleTest {
             var armyOne = new Army("ArmyOne");
             var armyTwo = new Army("ArmyTwo");
             //Act
-            var battle = new Battle(armyOne, armyTwo);
+            var battle = new Battle(armyOne, armyTwo, Terrain.DEFAULT);
             var winner = battle.simulate();
             //Assert
             assertEquals(new Army("Tie"), winner);
@@ -79,7 +79,7 @@ class BattleTest {
             var armyOne = new Army(name);
             var armyTwo = new Army(name2);
             //Act
-            var battle = new Battle(armyOne,armyTwo);
+            var battle = new Battle(armyOne,armyTwo, Terrain.DEFAULT);
             //Assert
             assertEquals(armyOne, battle.getArmyOne());
         }
@@ -93,7 +93,7 @@ class BattleTest {
             var armyOne = new Army(name);
             var armyTwo = new Army(name2);
             //Act
-            var battle = new Battle(armyOne,armyTwo);
+            var battle = new Battle(armyOne,armyTwo, Terrain.DEFAULT);
             //Assert
             assertEquals(armyTwo, battle.getArmyTwo());
         }

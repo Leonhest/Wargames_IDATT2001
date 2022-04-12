@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.wargames.army;
 
+import edu.ntnu.idatt2001.wargames.battle.Terrain;
+
 import java.util.Objects;
 
 /**
@@ -11,6 +13,7 @@ public abstract class Unit {
     private int health;
     private int attack;
     private int armor;
+    private Terrain terrain = Terrain.DEFAULT;
 
     /**
      * Initializes a Unit object.
@@ -88,7 +91,24 @@ public abstract class Unit {
         else{
             this.health = health;
         }
+    }
 
+    /**
+     * Gets terrain of unit.
+     *
+     * @return Terrain as {@link Terrain}
+     */
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    /**
+     * Sets terrain of the unit.
+     *
+     * @param terrain   Terrain of the unit
+     */
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
     }
 
     /**

@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.wargames.army;
 
+import edu.ntnu.idatt2001.wargames.battle.Terrain;
+
 /**
  * Represents a ranged unit in an army.
  * A ranged unit that possesses high attack bonus and
@@ -39,6 +41,12 @@ public class RangedUnit extends Unit{
      */
     @Override
     public int getAttackBonus() {
+        if(getTerrain() == Terrain.HILL){
+            return 4;
+        }
+        else if (getTerrain() == Terrain.FOREST){
+            return 2;
+        }
         return 3;
     }
 

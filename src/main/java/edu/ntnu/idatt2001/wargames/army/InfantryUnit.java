@@ -1,5 +1,7 @@
 package edu.ntnu.idatt2001.wargames.army;
 
+import edu.ntnu.idatt2001.wargames.battle.Terrain;
+
 /**
  * Represents an infantry unit in an army.
  * A melee unit that possesses moderate attack bonus.
@@ -36,6 +38,9 @@ public class InfantryUnit extends Unit {
      */
     @Override
     public int getAttackBonus() {
+        if(getTerrain() == Terrain.FOREST){
+            return 3;
+        }
         return 2;
     }
 
@@ -47,6 +52,9 @@ public class InfantryUnit extends Unit {
      */
     @Override
     public int getResistBonus() {
+        if(getTerrain() == Terrain.FOREST){
+            return 2;
+        }
         return 1;
     }
 

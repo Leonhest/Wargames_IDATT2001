@@ -15,9 +15,12 @@ public class Battle {
      * @param armyOne   first army
      * @param armyTwo   second army
      */
-    public Battle(Army armyOne, Army armyTwo) {
+    public Battle(Army armyOne, Army armyTwo, Terrain terrain) {
         this.armyOne = armyOne;
         this.armyTwo = armyTwo;
+
+        armyOne.getAllUnits().stream().forEach(e -> e.setTerrain(terrain));
+        armyTwo.getAllUnits().stream().forEach(e -> e.setTerrain(terrain));
     }
 
     /**
