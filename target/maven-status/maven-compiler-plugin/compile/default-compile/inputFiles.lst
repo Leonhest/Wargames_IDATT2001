@@ -1,12 +1,13 @@
 /Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/army/InfantryUnit.java
 /Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/army/UnitType.java
 /Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/army/Unit.java
-/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/battle/Battle.java
-/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/army/UnitFactory.java
+/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/controller/BattleSimController.java
 /Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/army/RangedUnit.java
 /Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/controller/App.java
 /Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/army/CavalryUnit.java
-/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/army/Army.java
 /Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/army/CommanderUnit.java
 /Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/battle/Terrain.java
+/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/battle/Battle.java
+/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/army/UnitFactory.java
+/Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/backend/army/Army.java
 /Users/leonhesthaug/Wargames_IDATT2001/src/main/java/edu/ntnu/idatt2001/wargames/controller/StartPageController.java
