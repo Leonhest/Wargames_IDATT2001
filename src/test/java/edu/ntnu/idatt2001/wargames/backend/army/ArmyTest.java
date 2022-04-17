@@ -134,7 +134,7 @@ class ArmyTest {
             army.add(archer);
             army.add(peasant2);
             //Act
-            army.armyToCsv("src/test/resources/", "saved_army");
+            army.armyToCsv("src/test/resources", "saved_army");
 
             //Assert
             assertTrue(tempFile.exists());

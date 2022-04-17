@@ -107,8 +107,8 @@ public class Army {
      *
      * @param path file path to save location
      */
-    public void armyToCsv(String path, String fileName) {
-        File file = new File(path+fileName+".csv");
+    public void armyToCsv(String path, String fileName){
+        File file = new File(path+"/"+fileName+".csv");
         try (FileWriter output = new FileWriter(file);
              CSVWriter writer = new CSVWriter(output))
         {
@@ -213,6 +213,7 @@ public class Army {
      *
      * @return true if not empty and false if empty
      */
+
     public boolean hasUnits(){
         return !units.isEmpty();
     }
@@ -248,6 +249,17 @@ public class Army {
      */
     public String getName() {
         return name;
+    }
+
+
+
+    /**
+     * Sets name of army.
+     *
+     * @param name  name of army
+     */
+    public void setName(String name){
+        this.name = name;
     }
 
     /**

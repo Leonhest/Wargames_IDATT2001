@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ntnu.idatt2001.wargames.controller.BattleSimController">
    <children>
       <ImageView fx:id="backgroundMap" fitHeight="400.0" fitWidth="600.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
-      <GridPane gridLinesVisible="true" prefHeight="401.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane fx:id="battleGrid" prefHeight="401.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="64.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="104.0" />
@@ -23,23 +32,29 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="64.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="197.0" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="347.0" minHeight="0.0" prefHeight="23.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="347.0" minHeight="0.0" prefHeight="73.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="347.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="347.0" minHeight="0.0" prefHeight="47.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="347.0" minHeight="10.0" prefHeight="91.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="347.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="0.0" prefHeight="23.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="0.0" prefHeight="73.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="0.0" prefHeight="47.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="91.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <HBox GridPane.columnIndex="3">
                <children>
-                  <Button fx:id="battle" mnemonicParsing="false" text="Button" />
+                  <Button fx:id="battle" mnemonicParsing="false" text="Button">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
             </HBox>
             <HBox GridPane.columnIndex="2">
                <children>
-                  <Button fx:id="army1" mnemonicParsing="false" text="Button" />
+                  <Button fx:id="army1" mnemonicParsing="false" onAction="#addArmy" text="Button">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
                <GridPane.margin>
                   <Insets bottom="20.0" left="20.0" />
@@ -47,7 +62,10 @@
             </HBox>
             <HBox GridPane.columnIndex="4">
                <children>
-                  <Button fx:id="army2" mnemonicParsing="false" text="Button" />
+                  <Button fx:id="army2" mnemonicParsing="false" onAction="#addArmy" text="Button">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
                <GridPane.margin>
                   <Insets bottom="20.0" right="20.0" />
@@ -55,12 +73,395 @@
             </HBox>
             <HBox>
                <children>
-                  <Button fx:id="menu" mnemonicParsing="false" text="Button" />
+                  <Button fx:id="menu" mnemonicParsing="false" onAction="#menu" text="Button">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                </children>
                <GridPane.margin>
                   <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
                </GridPane.margin>
             </HBox>
+         </children>
+      </GridPane>
+      <GridPane fx:id="menuGrid" prefHeight="401.0" prefWidth="600.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="172.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="240.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="188.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="98.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="254.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <GridPane opacity="0.71" style="-fx-background-color: grey; -fx-border-color: black; -fx-border-width: 3;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox>
+                     <children>
+                        <Button fx:id="home" mnemonicParsing="false" onAction="#toStartPage" text="Button">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <HBox GridPane.rowIndex="1">
+                     <children>
+                        <Button fx:id="reset" mnemonicParsing="false" onAction="#resetBattleSim" text="Button">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <HBox GridPane.rowIndex="2">
+                     <children>
+                        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancelMenu" text="Button">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+                     </GridPane.margin>
+                  </HBox>
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+      <GridPane fx:id="addArmyGrid" prefHeight="401.0" prefWidth="600.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Pane opacity="0.69" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" />
+            <Pane opacity="0.69" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.columnIndex="1" />
+            <GridPane style="-fx-border-color: black; -fx-border-width: 3;">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Pane fx:id="addUnitPane" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="addUnitAdd" fitHeight="50.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Add.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <children>
+                        <ImageView fx:id="addUnitUnit" fitHeight="50.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Unit.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <Pane fx:id="attributesPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="22.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                     <children>
+                        <ImageView fx:id="type" fitHeight="20.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Type.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fx:id="name" fitHeight="20.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Name.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="22.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fx:id="health" fitHeight="20.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Health.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="22.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+                     <children>
+                        <ImageView fx:id="attack" fitHeight="20.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Attack.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="22.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <ImageView fx:id="armor" fitHeight="20.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Armor.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="22.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                     <children>
+                        <ImageView fx:id="quantity" fitHeight="20.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Quantity.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="22.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
+                     <children>
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#addUnitToArmy" text="Button">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <children>
+                        <Button fx:id="importButton" mnemonicParsing="false" onAction="#importArmy" text="Button">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                     <children>
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveArmy" text="Button">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <HBox fx:id="nameHBox" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <TextField fx:id="nameTextField" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="50.0" left="40.0" right="40.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <HBox fx:id="typeHBox" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+                     <children>
+                        <ChoiceBox fx:id="typeChoice" prefWidth="150.0">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></ChoiceBox>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="50.0" left="40.0" right="40.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <HBox fx:id="healthHBox" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <children>
+                        <TextField fx:id="healthNumberField" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="50.0" left="60.0" right="60.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <VBox fx:id="attackVBox" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
+                     <children>
+                        <TextField fx:id="attackNumberField" />
+                        <Text fx:id="optional1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="(OPTIONAL)" textAlignment="CENTER" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="50.0" left="60.0" right="60.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox fx:id="armorVBox" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <children>
+                        <TextField fx:id="armorNumberField" />
+                        <Text fx:id="optional" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="(OPTIONAL)" textAlignment="CENTER" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <GridPane.margin>
+                        <Insets bottom="50.0" left="60.0" right="60.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox fx:id="qtyVBox" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                     <children>
+                        <TextField fx:id="qtyNumberField" />
+                        <Text fx:id="optional11" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="50.0" left="60.0" right="60.0" />
+                     </GridPane.margin>
+                  </VBox>
+               </children>
+            </GridPane>
+            <GridPane gridLinesVisible="true" style="-fx-border-color: black; -fx-border-width: 3;" GridPane.columnIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="59.5" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="309.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="2.0" prefHeight="27.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TableView fx:id="armyTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="C1" />
+                      <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                  </TableView>
+                  <GridPane GridPane.rowIndex="2">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button fx:id="clearArmyButton" mnemonicParsing="false" onAction="#clearArmy" text="Button">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
+                           </children>
+                           <GridPane.margin>
+                              <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                           </GridPane.margin>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <Button fx:id="deployArmyButton" mnemonicParsing="false" onAction="#deployArmy" text="Button">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
+                           </children>
+                           <GridPane.margin>
+                              <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                           </GridPane.margin>
+                        </HBox>
+                     </children>
+                  </GridPane>
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.4605712890625" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="103.98825073242188" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="76.01174926757812" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Pane fx:id="armyViewTitlePane" prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="armyViewTitle" fitHeight="37.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/text/Army_White.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <GridPane.margin>
+                              <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                           </GridPane.margin>
+                        </Pane>
+                        <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+                           <children>
+                              <TextField fx:id="renameArmyField" />
+                              <Button fx:id="renameArmyButton" mnemonicParsing="false" onAction="#renameArmy" text="Button">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
+                              <Text fx:id="successText" fill="#26b926" strokeType="OUTSIDE" strokeWidth="0.0" text="SUCCESS" visible="false" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets left="40.0" right="40.0" top="60.0" />
+                           </GridPane.margin>
+                        </VBox>
+                        <Pane fx:id="renameArmyPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                           <children>
+                              <ImageView fx:id="renameArmy" fitHeight="37.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/text/Rename.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                           <GridPane.margin>
+                              <Insets bottom="50.0" left="60.0" right="30.0" top="50.0" />
+                           </GridPane.margin>
+                        </Pane>
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
          </children>
       </GridPane>
    </children>

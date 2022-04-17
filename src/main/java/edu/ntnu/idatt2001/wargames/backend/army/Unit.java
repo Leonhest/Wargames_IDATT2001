@@ -9,6 +9,7 @@ import java.util.Objects;
  * Contains necessary unit stats, including methods for attacking.
  */
 public abstract class Unit {
+    private String type = this.getClass().getSimpleName().replace("Unit", "");
     private String name;
     private int health;
     private int attack;
@@ -75,6 +76,15 @@ public abstract class Unit {
      */
     public int getArmor() {
         return armor;
+    }
+
+    /**
+     * Gets type of unit.
+     *
+     * @return unit type
+     */
+    public String getType() {
+        return type;
     }
 
     /**

@@ -72,6 +72,10 @@ public class StartPageController implements Initializable {
     private ImageView map;
     @FXML
     private Pane mapPane;
+    @FXML
+    private Pane offButtonPane;
+    @FXML
+    private ImageView offButton;
 
     private int imageNumber = 1;
 
@@ -92,6 +96,10 @@ public class StartPageController implements Initializable {
             map.fitHeightProperty().bind(mapRoot1.heightProperty());
             map.fitWidthProperty().bind(mapRoot1.widthProperty());
         }
+
+        offButton.fitHeightProperty().bind(offButtonPane.heightProperty());
+        offButton.fitWidthProperty().bind(offButtonPane.widthProperty());
+        offButton.setPreserveRatio(true);
 
         title.fitHeightProperty().bind(titlePane.heightProperty());
         title.fitWidthProperty().bind(titlePane.widthProperty());
@@ -150,7 +158,6 @@ public class StartPageController implements Initializable {
 
     @FXML
     public void startBattle(ActionEvent event) throws IOException {
-        System.out.println(choosenMap);
         Parent viewPage = FXMLLoader.load(Objects.requireNonNull(StartPageController.class.getResource("/edu/ntnu/idatt2001/wargames/frontend/BattleSim.fxml")));
         Scene page = new Scene(viewPage, 800, 600);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -162,6 +169,11 @@ public class StartPageController implements Initializable {
 
     public static Image getChoosenMap(){
         return choosenMap;
+    }
+
+    public void exit(){
+        Stage stage = (Stage) offButton.getScene().getWindow();
+        stage.close();
     }
 
 }
