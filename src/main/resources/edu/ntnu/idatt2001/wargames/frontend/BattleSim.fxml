@@ -4,7 +4,6 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -16,6 +15,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.ntnu.idatt2001.wargames.controller.BattleSimController">
@@ -41,45 +41,93 @@
             <RowConstraints minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <HBox GridPane.columnIndex="3">
-               <children>
-                  <Button fx:id="battle" mnemonicParsing="false" text="Button">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-               </children>
-            </HBox>
-            <HBox GridPane.columnIndex="2">
-               <children>
-                  <Button fx:id="army1" mnemonicParsing="false" onAction="#addArmy" text="Button">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></Button>
-               </children>
+            <Pane fx:id="startBattlePane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
                <GridPane.margin>
-                  <Insets bottom="20.0" left="20.0" />
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
-            </HBox>
+            </Pane>
+            <Pane fx:id="army1Pane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+               <GridPane.margin>
+                  <Insets bottom="25.0" left="25.0" right="5.0" top="5.0" />
+               </GridPane.margin>
+            </Pane>
+            <Pane fx:id="army2Pane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4">
+               <GridPane.margin>
+                  <Insets bottom="25.0" left="5.0" right="25.0" top="5.0" />
+               </GridPane.margin>
+            </Pane>
+            <Pane fx:id="menuPane" prefHeight="200.0" prefWidth="200.0">
+               <GridPane.margin>
+                  <Insets bottom="15.0" left="35.0" right="35.0" top="15.0" />
+               </GridPane.margin>
+            </Pane>
             <HBox GridPane.columnIndex="4">
                <children>
-                  <Button fx:id="army2" mnemonicParsing="false" onAction="#addArmy" text="Button">
+                  <Button fx:id="army2" mnemonicParsing="false" onAction="#addArmy" prefHeight="26.0" prefWidth="57.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
-                     </cursor></Button>
+                     </cursor>
+                     <graphic>
+                        <ImageView fx:id="army2Image" fitHeight="15.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Army_Red.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
                </children>
                <GridPane.margin>
                   <Insets bottom="20.0" right="20.0" />
                </GridPane.margin>
             </HBox>
-            <HBox>
+            <HBox GridPane.columnIndex="2">
                <children>
-                  <Button fx:id="menu" mnemonicParsing="false" onAction="#menu" text="Button">
+                  <Button fx:id="army1" mnemonicParsing="false" onAction="#addArmy">
                      <cursor>
                         <Cursor fx:constant="HAND" />
-                     </cursor></Button>
+                     </cursor>
+                     <graphic>
+                        <ImageView fx:id="army1Image" fitHeight="18.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Army_Blue.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
                </children>
                <GridPane.margin>
-                  <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+                  <Insets bottom="20.0" left="20.0" />
+               </GridPane.margin>
+            </HBox>
+            <HBox GridPane.columnIndex="3">
+               <children>
+                  <Button fx:id="battle" mnemonicParsing="false" onAction="#startBattle" prefHeight="26.0" prefWidth="67.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fx:id="startBattleImage" fitHeight="17.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Battle.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Button fx:id="menu" mnemonicParsing="false" onAction="#menu">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fx:id="menuImage" fitHeight="14.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Menu_Icon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+               </children>
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="40.0" top="20.0" />
                </GridPane.margin>
             </HBox>
          </children>
@@ -96,7 +144,8 @@
           <RowConstraints minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <GridPane opacity="0.71" style="-fx-background-color: grey; -fx-border-color: black; -fx-border-width: 3;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Pane opacity="0.71" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: grey; -fx-border-color: black; -fx-border-width: 3;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <GridPane style=": ;" GridPane.columnIndex="1" GridPane.rowIndex="1">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
@@ -106,12 +155,24 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
+                  <Pane fx:id="homePane" prefHeight="200.0" prefWidth="200.0">
+                     <GridPane.margin>
+                        <Insets bottom="25.0" left="45.0" right="45.0" top="25.0" />
+                     </GridPane.margin>
+                  </Pane>
                   <HBox>
                      <children>
-                        <Button fx:id="home" mnemonicParsing="false" onAction="#toStartPage" text="Button">
+                        <Button fx:id="home" mnemonicParsing="false" onAction="#toStartPage" prefHeight="26.0" prefWidth="101.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor>
+                           <graphic>
+                              <ImageView fx:id="menuButtonImage" fitHeight="20.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/text/Menu.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
                      </children>
                      <GridPane.margin>
                         <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
@@ -119,10 +180,17 @@
                   </HBox>
                   <HBox GridPane.rowIndex="1">
                      <children>
-                        <Button fx:id="reset" mnemonicParsing="false" onAction="#resetBattleSim" text="Button">
+                        <Button fx:id="reset" mnemonicParsing="false" onAction="#resetBattleSim" prefHeight="26.0" prefWidth="103.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor>
+                           <graphic>
+                              <ImageView fx:id="resetButtonImage" fitHeight="19.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/text/Reset.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
                      </children>
                      <GridPane.margin>
                         <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
@@ -130,10 +198,17 @@
                   </HBox>
                   <HBox GridPane.rowIndex="2">
                      <children>
-                        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancelMenu" text="Button">
+                        <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancelMenu" prefHeight="26.0" prefWidth="102.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor>
+                           <graphic>
+                              <ImageView fx:id="cancelButtonImage" fitHeight="16.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/text/Cancel.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
                      </children>
                      <GridPane.margin>
                         <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
@@ -265,15 +340,26 @@
                         <Insets bottom="22.0" left="30.0" right="30.0" top="30.0" />
                      </GridPane.margin>
                   </Pane>
+                  <Pane fx:id="addUnitButtonsPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
+                     </GridPane.margin>
+                  </Pane>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5">
                      <children>
-                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#addUnitToArmy" text="Button">
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#addUnitToArmy" prefHeight="26.0" prefWidth="39.0">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <graphic>
+                              <ImageView fx:id="addImage" fitHeight="18.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/text/Add_Black.png" />
+                                 </image></ImageView>
+                           </graphic>
                         </Button>
                      </children>
                      <GridPane.margin>
@@ -282,10 +368,16 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <children>
-                        <Button fx:id="importButton" mnemonicParsing="false" onAction="#importArmy" text="Button">
+                        <Button fx:id="importButton" mnemonicParsing="false" onAction="#importArmy" prefHeight="26.0" prefWidth="39.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor>
+                           <graphic>
+                              <ImageView fx:id="importImage" fitHeight="13.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/text/Import.png" />
+                                 </image></ImageView>
+                           </graphic></Button>
                      </children>
                      <GridPane.margin>
                         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
@@ -293,10 +385,16 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
                      <children>
-                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveArmy" text="Button">
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveArmy" prefHeight="26.0" prefWidth="40.0">
                            <cursor>
                               <Cursor fx:constant="HAND" />
-                           </cursor></Button>
+                           </cursor>
+                           <graphic>
+                              <ImageView fx:id="saveImage" fitHeight="17.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/text/Save.png" />
+                                 </image></ImageView>
+                           </graphic></Button>
                      </children>
                      <GridPane.margin>
                         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
@@ -371,12 +469,6 @@
                 <RowConstraints minHeight="2.0" prefHeight="27.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TableView fx:id="armyTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
-                    </columns>
-                  </TableView>
                   <GridPane GridPane.rowIndex="2">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -387,12 +479,24 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
+                        <Pane fx:id="armyOptionsPane" prefHeight="200.0" prefWidth="200.0">
+                           <GridPane.margin>
+                              <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
+                           </GridPane.margin>
+                        </Pane>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="clearArmyButton" mnemonicParsing="false" onAction="#clearArmy" text="Button">
+                              <Button fx:id="clearArmyButton" mnemonicParsing="false" onAction="#clearArmy" prefHeight="26.0" prefWidth="38.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
-                                 </cursor></Button>
+                                 </cursor>
+                                 <graphic>
+                                    <ImageView fx:id="clearImage" fitHeight="13.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/text/Clear.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                            </children>
                            <GridPane.margin>
                               <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
@@ -400,10 +504,17 @@
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                            <children>
-                              <Button fx:id="deployArmyButton" mnemonicParsing="false" onAction="#deployArmy" text="Button">
+                              <Button fx:id="deployArmyButton" mnemonicParsing="false" onAction="#deployArmy" prefHeight="26.0" prefWidth="41.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
-                                 </cursor></Button>
+                                 </cursor>
+                                 <graphic>
+                                    <ImageView fx:id="deployImage" fitHeight="18.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/text/Deploy.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                            </children>
                            <GridPane.margin>
                               <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
@@ -413,9 +524,9 @@
                   </GridPane>
                   <GridPane>
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.4605712890625" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="103.98825073242188" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="76.01174926757812" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="131.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="101.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="61.5" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -436,10 +547,17 @@
                         <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
                            <children>
                               <TextField fx:id="renameArmyField" />
-                              <Button fx:id="renameArmyButton" mnemonicParsing="false" onAction="#renameArmy" text="Button">
+                              <Button fx:id="renameArmyButton" mnemonicParsing="false" onAction="#renameArmy" prefHeight="26.0" prefWidth="57.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
-                                 </cursor></Button>
+                                 </cursor>
+                                 <graphic>
+                                    <ImageView fx:id="okImage" fitHeight="13.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/text/Ok.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                               <Text fx:id="successText" fill="#26b926" strokeType="OUTSIDE" strokeWidth="0.0" text="SUCCESS" visible="false" />
                            </children>
                            <GridPane.margin>
@@ -460,6 +578,129 @@
                         </Pane>
                      </children>
                   </GridPane>
+                  <TableView fx:id="armyTableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+      <Pane fx:id="winnerBackground" opacity="0.58" prefHeight="401.0" prefWidth="600.0" style="-fx-background-color: black;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <GridPane fx:id="winnerGrid" gridLinesVisible="true" prefHeight="401.0" prefWidth="600.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="101.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="299.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="63.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="181.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="0.0" prefHeight="36.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="9.0" prefHeight="10.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="72.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="181.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="74.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightgrey; -fx-border-color: black; -fx-border-width: 3;" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="15.0" left="25.0" right="25.0" top="15.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <Pane fx:id="winnerPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <children>
+                        <ImageView fx:id="winnerImage" fitHeight="60.0" fitWidth="138.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/text/Winner.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
+                     </GridPane.margin>
+                  </Pane>
+               </children>
+            </GridPane>
+            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="72.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="181.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="74.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <HBox fx:id="armyWinnerHBox" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <children>
+                        <Text fx:id="armyWinnerText" fill="#eed813" strokeType="OUTSIDE" strokeWidth="0.0" text="TIE">
+                           <font>
+                              <Font size="31.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+            <TableView fx:id="armyWinnerTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="4">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Pane fx:id="battleSumButtonPane" prefHeight="200.0" prefWidth="200.0">
+                     <GridPane.margin>
+                        <Insets bottom="35.0" left="35.0" right="35.0" top="35.0" />
+                     </GridPane.margin>
+                  </Pane>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="retryButton" mnemonicParsing="false" onAction="#retryBattle">
+                           <graphic>
+                              <ImageView fx:id="retryButtonImage" fitHeight="16.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/text/Retry.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                     <children>
+                        <Button fx:id="exitToMenuButton" mnemonicParsing="false" onAction="#toStartPage">
+                           <graphic>
+                              <ImageView fx:id="exitButtonImage" fitHeight="17.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/text/Exit.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </HBox>
                </children>
             </GridPane>
          </children>

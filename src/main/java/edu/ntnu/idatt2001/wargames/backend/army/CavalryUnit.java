@@ -18,6 +18,7 @@ public class CavalryUnit extends Unit{
      */
     public CavalryUnit(String name, int health) {
         super(name, health, 20, 12);
+        this.type = UnitType.CAVALRY;
     }
 
     /**
@@ -30,6 +31,7 @@ public class CavalryUnit extends Unit{
      */
     public CavalryUnit(String name, int health, int attack, int armor) {
         super(name, health, attack, armor);
+        this.type = UnitType.CAVALRY;
     }
 
     /**

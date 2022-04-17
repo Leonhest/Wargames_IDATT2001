@@ -9,7 +9,7 @@ import java.util.Objects;
  * Contains necessary unit stats, including methods for attacking.
  */
 public abstract class Unit {
-    private String type = this.getClass().getSimpleName().replace("Unit", "");
+    protected UnitType type;
     private String name;
     private int health;
     private int attack;
@@ -38,11 +38,16 @@ public abstract class Unit {
      * Attacks an opposing unit.
      * Formula:
      * Opponent Health - this(attack + attackBonus) + opponent(armor + armorBonus)
+     * If opponent armor total is larger than this attack total, attack deals 0 damage.
      *
      * @param opponent  Opposing unit
      */
     public void attack(Unit opponent){
-        int newHealth = opponent.getHealth() - (this.getAttack() + this.getAttackBonus()) + (opponent.getArmor()+ opponent.getResistBonus());
+        int attackDamage = (this.getAttack() + this.getAttackBonus()) - (opponent.getArmor()+ opponent.getResistBonus());
+        if(attackDamage < 0){
+            attackDamage = 0;
+        }
+        int newHealth = opponent.getHealth() - attackDamage;
         opponent.setHealth(newHealth);
     }
 
@@ -83,7 +88,7 @@ public abstract class Unit {
      *
      * @return unit type
      */
-    public String getType() {
+    public UnitType getType() {
         return type;
     }
 

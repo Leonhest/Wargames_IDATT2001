@@ -46,6 +46,20 @@ public class Army {
     }
 
     /**
+     * Constructor used for deep copying.
+     *
+     * @param army army to be copied
+     */
+    public Army(Army army){
+        this.name = army.getName();
+        List<Unit> units = new ArrayList<>();
+        for (Unit unit: army.getAllUnits()){
+            units.add(UnitFactory.getComplexUnit(unit.getType(), unit.getName(), unit.getHealth(), unit.getAttack(), unit.getArmor()));
+        }
+        this.units = units;
+    }
+
+    /**
      * Initializes an Army object from a .csv file
      * The .csv file contains army name on first row
      * Repeating rows are units written in the format:

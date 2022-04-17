@@ -19,6 +19,7 @@ public class RangedUnit extends Unit{
      */
     public RangedUnit(String name, int health) {
         super(name, health, 15, 8);
+        this.type = UnitType.RANGED;
     }
 
     /**
@@ -31,6 +32,7 @@ public class RangedUnit extends Unit{
      */
     public RangedUnit(String name, int health, int attack, int armor) {
         super(name, health, attack, armor);
+        this.type = UnitType.RANGED;
     }
 
     /**
