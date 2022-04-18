@@ -3,8 +3,6 @@ package edu.ntnu.idatt2001.wargames.controller;
 import edu.ntnu.idatt2001.wargames.backend.army.*;
 import edu.ntnu.idatt2001.wargames.backend.battle.Battle;
 import edu.ntnu.idatt2001.wargames.backend.battle.Terrain;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -198,9 +197,37 @@ public class BattleSimController implements Initializable {
     @FXML
     private ImageView deployImage;
     @FXML
-    private Pane okButtonPane;
-    @FXML
     private ImageView okImage;
+    @FXML
+    private Pane statsButtonPane;
+    @FXML
+    private Button statsButton;
+    @FXML
+    private ImageView statsButtonImage;
+    @FXML
+    private HBox firstArmyTitleHBox;
+    @FXML
+    private HBox secondArmyTitleHBox;
+    @FXML
+    private Text firstArmyTitle;
+    @FXML
+    private Text secondArmyTitle;
+    @FXML
+    private TableView firstArmyStats;
+    @FXML
+    private TableView secondArmyStats;
+    @FXML
+    private TableView firstArmyInfo;
+    @FXML
+    private TableView secondArmyInfo;
+    @FXML
+    private Button statsExitButton;
+    @FXML
+    private ImageView statsExitImage;
+    @FXML
+    private Pane statsExitPane;
+    @FXML
+    private GridPane statsGrid;
 
     private Button armyCheck;
 
@@ -217,6 +244,7 @@ public class BattleSimController implements Initializable {
     private Font doomFontLarge;
 
     private double fontSize = 50;
+    private double armyFontSize = 40;
 
 
     private Map<String, Terrain> mapToTerrain;
@@ -224,7 +252,7 @@ public class BattleSimController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        firstArmy = new Army("firsArmy");
+        firstArmy = new Army("firstArmy");
         secondArmy = new Army("secondArmy");
 
         InputStream fontStream = BattleSimController.class.getResourceAsStream("/edu/ntnu/idatt2001/wargames/fonts/Doom2016Text-GOlBq.ttf");
@@ -251,6 +279,11 @@ public class BattleSimController implements Initializable {
         HBox.setHgrow(army2, Priority.ALWAYS);
         menu.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         HBox.setHgrow(menu, Priority.ALWAYS);
+        statsButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        HBox.setHgrow(statsButton, Priority.ALWAYS);
+        statsExitButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        HBox.setHgrow(statsExitButton, Priority.ALWAYS);
+
 
         typeChoice.getItems().add(UnitType.INFANTRY);
         typeChoice.getItems().add(UnitType.RANGED);
@@ -311,11 +344,128 @@ public class BattleSimController implements Initializable {
         armyTableView.getColumns().add(column4);
         armyTableView.getColumns().add(column5);
 
+
+
         column1.prefWidthProperty().bind(armyTableView.widthProperty().divide(5));
         column2.prefWidthProperty().bind(armyTableView.widthProperty().divide(5));
         column3.prefWidthProperty().bind(armyTableView.widthProperty().divide(5));
         column4.prefWidthProperty().bind(armyTableView.widthProperty().divide(5));
         column5.prefWidthProperty().bind(armyTableView.widthProperty().divide(5));
+
+        TableColumn<Unit, String> firstArmyColumn1 =
+                new TableColumn<>("Type");
+
+        firstArmyColumn1.setCellValueFactory(
+                new PropertyValueFactory<>("type"));
+
+        TableColumn<Unit, String> firstArmyColumn2 =
+                new TableColumn<>("Name");
+
+        firstArmyColumn2.setCellValueFactory(
+                new PropertyValueFactory<>("name"));
+
+        TableColumn<Unit, Integer> firstArmyColumn3 =
+                new TableColumn<>("Health");
+
+        firstArmyColumn3.setCellValueFactory(
+                new PropertyValueFactory<>("health"));
+
+        TableColumn<Unit, Integer> firstArmyColumn4 =
+                new TableColumn<>("Attack");
+
+        firstArmyColumn4.setCellValueFactory(
+                new PropertyValueFactory<>("attack"));
+
+        TableColumn<Unit, Integer> firstArmyColumn5 =
+                new TableColumn<>("Armor");
+
+        firstArmyColumn5.setCellValueFactory(
+                new PropertyValueFactory<>("armor"));
+
+        firstArmyStats.getColumns().add(firstArmyColumn1);
+        firstArmyStats.getColumns().add(firstArmyColumn2);
+        firstArmyStats.getColumns().add(firstArmyColumn3);
+        firstArmyStats.getColumns().add(firstArmyColumn4);
+        firstArmyStats.getColumns().add(firstArmyColumn5);
+
+        firstArmyColumn1.prefWidthProperty().bind(firstArmyStats.widthProperty().divide(5));
+        firstArmyColumn2.prefWidthProperty().bind(firstArmyStats.widthProperty().divide(5));
+        firstArmyColumn3.prefWidthProperty().bind(firstArmyStats.widthProperty().divide(5));
+        firstArmyColumn4.prefWidthProperty().bind(firstArmyStats.widthProperty().divide(5));
+        firstArmyColumn5.prefWidthProperty().bind(firstArmyStats.widthProperty().divide(5));
+
+        TableColumn<Unit, String> secondArmyColumn1 =
+                new TableColumn<>("Type");
+
+        secondArmyColumn1.setCellValueFactory(
+                new PropertyValueFactory<>("type"));
+
+        TableColumn<Unit, String> secondArmyColumn2 =
+                new TableColumn<>("Name");
+
+        secondArmyColumn2.setCellValueFactory(
+                new PropertyValueFactory<>("name"));
+
+        TableColumn<Unit, Integer> secondArmyColumn3 =
+                new TableColumn<>("Health");
+
+        secondArmyColumn3.setCellValueFactory(
+                new PropertyValueFactory<>("health"));
+
+        TableColumn<Unit, Integer> secondArmyColumn4 =
+                new TableColumn<>("Attack");
+
+        secondArmyColumn4.setCellValueFactory(
+                new PropertyValueFactory<>("attack"));
+
+        TableColumn<Unit, Integer> secondArmyColumn5 =
+                new TableColumn<>("Armor");
+
+        secondArmyColumn5.setCellValueFactory(
+                new PropertyValueFactory<>("armor"));
+
+        secondArmyStats.getColumns().add(secondArmyColumn1);
+        secondArmyStats.getColumns().add(secondArmyColumn2);
+        secondArmyStats.getColumns().add(secondArmyColumn3);
+        secondArmyStats.getColumns().add(secondArmyColumn4);
+        secondArmyStats.getColumns().add(secondArmyColumn5);
+
+        secondArmyColumn1.prefWidthProperty().bind(secondArmyStats.widthProperty().divide(5));
+        secondArmyColumn2.prefWidthProperty().bind(secondArmyStats.widthProperty().divide(5));
+        secondArmyColumn3.prefWidthProperty().bind(secondArmyStats.widthProperty().divide(5));
+        secondArmyColumn4.prefWidthProperty().bind(secondArmyStats.widthProperty().divide(5));
+        secondArmyColumn5.prefWidthProperty().bind(secondArmyStats.widthProperty().divide(5));
+
+        TableColumn<Map, String> firstInfoColumn1 =
+                new TableColumn<>("Info");
+        firstInfoColumn1.setCellValueFactory(new MapValueFactory<>("info"));
+
+        TableColumn<Map, Integer> firstInfoColumn2 =
+                new TableColumn<>("Numbers");
+        firstInfoColumn2.setCellValueFactory(new MapValueFactory<>("numbers"));
+
+
+        firstArmyInfo.getColumns().add(firstInfoColumn1);
+        firstArmyInfo.getColumns().add(firstInfoColumn2);
+        firstInfoColumn1.prefWidthProperty().bind(firstArmyInfo.widthProperty().divide(2));
+        firstInfoColumn2.prefWidthProperty().bind(firstArmyInfo.widthProperty().divide(2));
+
+        TableColumn<Map, String> secondInfoColumn1 =
+                new TableColumn<>("Info");
+        secondInfoColumn1.setCellValueFactory(new MapValueFactory<>("info"));
+
+        TableColumn<Map, Integer> secondInfoColumn2 =
+                new TableColumn<>("Numbers");
+        secondInfoColumn2.setCellValueFactory(new MapValueFactory<>("numbers"));
+
+
+        secondArmyInfo.getColumns().add(secondInfoColumn1);
+        secondArmyInfo.getColumns().add(secondInfoColumn2);
+        secondInfoColumn1.prefWidthProperty().bind(secondArmyInfo.widthProperty().divide(2));
+        secondInfoColumn2.prefWidthProperty().bind(secondArmyInfo.widthProperty().divide(2));
+
+
+
 
         TableColumn<Unit, String> winnerColumn1 =
                 new TableColumn<>("Type");
@@ -387,6 +537,11 @@ public class BattleSimController implements Initializable {
         okImage.fitWidthProperty().bind(renameArmyField.widthProperty());
         okImage.fitHeightProperty().bind(renameArmyField.heightProperty());
 
+        statsButtonImage.fitWidthProperty().bind(statsButtonPane.widthProperty());
+        statsButtonImage.fitHeightProperty().bind(statsButtonPane.heightProperty());
+
+        statsExitImage.fitWidthProperty().bind(statsExitPane.widthProperty());
+        statsExitImage.fitHeightProperty().bind(statsExitPane.heightProperty());
 
     }
 
@@ -587,6 +742,7 @@ public class BattleSimController implements Initializable {
         addArmyGrid.setVisible(false);
         battleGrid.setVisible(true);
         successText.setVisible(false);
+
     }
 
     @FXML
@@ -638,5 +794,105 @@ public class BattleSimController implements Initializable {
 
         winnerBackground.setVisible(false);
         winnerGrid.setVisible(false);
+    }
+
+    @FXML
+    public void seeStats(){
+        HBox.setHgrow(firstArmyTitle, Priority.ALWAYS);
+        HBox.setHgrow(secondArmyTitle, Priority.ALWAYS);
+        firstArmyTitleHBox.setAlignment(Pos.CENTER);
+        secondArmyTitleHBox.setAlignment(Pos.CENTER);
+        firstArmyTitle.setFont(doomFontLarge);
+        secondArmyTitle.setFont(doomFontLarge);
+        firstArmyTitle.setText(firstArmy.getName().toUpperCase(Locale.ROOT));
+        secondArmyTitle.setText(secondArmy.getName().toUpperCase(Locale.ROOT));
+
+        firstArmyTitleHBox.heightProperty().addListener((value, number, t1) -> {
+            armyFontSize = armyWinnerHBox.getHeight()/1.5;
+
+            firstArmyTitle.setStyle("-fx-font-size: " + armyFontSize);
+            secondArmyTitle.setStyle("-fx-font-size: " + armyFontSize);
+        });
+        ObservableList<Unit> firstArmyList = FXCollections.observableArrayList(firstArmy.getAllUnits());
+        firstArmyStats.setItems(firstArmyList);
+
+        ObservableList<Unit> secondArmyList = FXCollections.observableArrayList(secondArmy.getAllUnits());
+        secondArmyStats.setItems(secondArmyList);
+
+        ObservableList<Map<String, Object>> items =
+                FXCollections.<Map<String, Object>>observableArrayList();
+
+        Map<String, Object> totalUnits1 = new HashMap<>();
+        totalUnits1.put("info", "Total units");
+        totalUnits1.put("numbers" , firstArmy.getAllUnits().size());
+
+        Map<String, Object> infantryUnits1 = new HashMap<>();
+        infantryUnits1.put("info", "Total infantry");
+        infantryUnits1.put("numbers" , firstArmy.getInfantryUnits().size());
+
+        Map<String, Object> rangedUnits1 = new HashMap<>();
+        rangedUnits1.put("info", "Total ranged");
+        rangedUnits1.put("numbers" , firstArmy.getRangedUnits().size());
+
+        Map<String, Object> cavalryUnits1 = new HashMap<>();
+        cavalryUnits1.put("info", "Total cavalry");
+        cavalryUnits1.put("numbers" , firstArmy.getCavalryUnits().size());
+
+        Map<String, Object> commanderUnits1 = new HashMap<>();
+        commanderUnits1.put("info", "Total commanders");
+        commanderUnits1.put("numbers" , firstArmy.getCommanderUnits().size());
+
+        items.add(totalUnits1);
+        items.add(infantryUnits1);
+        items.add(rangedUnits1);
+        items.add(cavalryUnits1);
+        items.add(commanderUnits1);
+        firstArmyInfo.getItems().clear();
+
+        firstArmyInfo.getItems().addAll(items);
+
+
+        ObservableList<Map<String, Object>> items2 =
+                FXCollections.<Map<String, Object>>observableArrayList();
+
+        Map<String, Object> totalUnits2 = new HashMap<>();
+        totalUnits2.put("info", "Total units");
+        totalUnits2.put("numbers" , secondArmy.getAllUnits().size());
+
+        Map<String, Object> infantryUnits2 = new HashMap<>();
+        infantryUnits2.put("info", "Total infantry");
+        infantryUnits2.put("numbers" , secondArmy.getInfantryUnits().size());
+
+        Map<String, Object> rangedUnits2 = new HashMap<>();
+        rangedUnits2.put("info", "Total ranged");
+        rangedUnits2.put("numbers" , secondArmy.getRangedUnits().size());
+
+        Map<String, Object> cavalryUnits2 = new HashMap<>();
+        cavalryUnits2.put("info", "Total cavalry");
+        cavalryUnits2.put("numbers" , secondArmy.getCavalryUnits().size());
+
+        Map<String, Object> commanderUnits2 = new HashMap<>();
+        commanderUnits2.put("info", "Total commanders");
+        commanderUnits2.put("numbers" , secondArmy.getCommanderUnits().size());
+
+        items2.add(totalUnits2);
+        items2.add(infantryUnits2);
+        items2.add(rangedUnits2);
+        items2.add(cavalryUnits2);
+        items2.add(commanderUnits2);
+        secondArmyInfo.getItems().clear();
+
+        secondArmyInfo.getItems().addAll(items2);
+
+        battleGrid.setVisible(false);
+        statsGrid.setVisible(true);
+        winnerBackground.setVisible(true);
+    }
+
+    @FXML
+    public void exitStats(){
+        battleGrid.setVisible(true);
+        statsGrid.setVisible(false);
+        winnerBackground.setVisible(false);
     }
 }

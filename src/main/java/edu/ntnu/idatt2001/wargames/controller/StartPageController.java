@@ -1,24 +1,17 @@
 package edu.ntnu.idatt2001.wargames.controller;
 
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlurType;
-import javafx.scene.effect.Effect;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -27,9 +20,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Timer;
@@ -158,6 +148,7 @@ public class StartPageController implements Initializable {
 
     @FXML
     public void startBattle(ActionEvent event) throws IOException {
+        timer.cancel();
         Parent viewPage = FXMLLoader.load(Objects.requireNonNull(StartPageController.class.getResource("/edu/ntnu/idatt2001/wargames/frontend/BattleSim.fxml")));
         Scene page = new Scene(viewPage, 800, 600);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -172,6 +163,7 @@ public class StartPageController implements Initializable {
     }
 
     public void exit(){
+        timer.cancel();
         Stage stage = (Stage) offButton.getScene().getWindow();
         stage.close();
     }
