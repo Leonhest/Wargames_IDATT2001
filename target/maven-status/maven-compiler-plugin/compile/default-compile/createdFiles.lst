@@ -1,5 +1,7 @@
+edu/ntnu/idatt2001/wargames/controller/BattleSimController$1.class
 edu/ntnu/idatt2001/wargames/controller/App.class
 edu/ntnu/idatt2001/wargames/backend/army/CavalryUnit.class
+edu/ntnu/idatt2001/wargames/controller/BattleSimController$UnitNode.class
 edu/ntnu/idatt2001/wargames/backend/army/UnitFactory$1.class
 edu/ntnu/idatt2001/wargames/backend/army/CommanderUnit.class
 edu/ntnu/idatt2001/wargames/backend/army/RangedUnit.class

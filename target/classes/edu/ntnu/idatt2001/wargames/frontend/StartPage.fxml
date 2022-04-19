@@ -45,6 +45,9 @@
                      </image>
                   </ImageView>
                </children>
+               <GridPane.margin>
+                  <Insets top="5.0" />
+               </GridPane.margin>
             </Pane>
          </children>
       </GridPane>

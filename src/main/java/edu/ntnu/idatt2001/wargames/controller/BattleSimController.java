@@ -3,6 +3,7 @@ package edu.ntnu.idatt2001.wargames.controller;
 import edu.ntnu.idatt2001.wargames.backend.army.*;
 import edu.ntnu.idatt2001.wargames.backend.battle.Battle;
 import edu.ntnu.idatt2001.wargames.backend.battle.Terrain;
+import javafx.animation.PathTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,12 +23,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -228,6 +236,15 @@ public class BattleSimController implements Initializable {
     private Pane statsExitPane;
     @FXML
     private GridPane statsGrid;
+    @FXML
+    private StackPane nodePaneLeft;
+    @FXML
+    private Group nodeGroupLeft;
+    @FXML
+    private StackPane nodePaneRight;
+    @FXML
+    private Group nodeGroupRight;
+
 
     private Button armyCheck;
 
@@ -249,6 +266,11 @@ public class BattleSimController implements Initializable {
 
     private Map<String, Terrain> mapToTerrain;
     private Terrain terrain;
+
+
+    private UnitNode[][] leftArmy;
+    private UnitNode[][] rightArmy;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -480,7 +502,7 @@ public class BattleSimController implements Initializable {
                 new PropertyValueFactory<>("name"));
 
         TableColumn<Unit, Integer> winnerColumn3 =
-                new TableColumn<>("Health");
+                new TableColumn<>("Health Left");
 
         winnerColumn3.setCellValueFactory(
                 new PropertyValueFactory<>("health"));
@@ -542,6 +564,7 @@ public class BattleSimController implements Initializable {
 
         statsExitImage.fitWidthProperty().bind(statsExitPane.widthProperty());
         statsExitImage.fitHeightProperty().bind(statsExitPane.heightProperty());
+
 
     }
 
@@ -613,6 +636,9 @@ public class BattleSimController implements Initializable {
                 try {
                     field.getTextFormatter().getValueConverter().fromString(newValue);
                     field.setBorder(null);
+                    if(field.getTextFormatter().getValueConverter().fromString(newValue).equals(0)){
+                        throw new NumberFormatException("stats cannot be zero");
+                    }
                 } catch (NumberFormatException e) {
                     field.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
                 }
@@ -665,7 +691,7 @@ public class BattleSimController implements Initializable {
         String qty = qtyNumberField.getText();
         String attack = attackNumberField.getText();
         String armor = armorNumberField.getText();
-        if(type == null || health.equals("") || qty.equals("")){
+        if((type == null) || health.equals("") || qty.equals("")){
             return;
         }
         if(armyCheck.equals(army1)){
@@ -688,14 +714,22 @@ public class BattleSimController implements Initializable {
     public void importArmy(){
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(root.getScene().getWindow());
-        if(armyCheck.equals(army1)){
-            firstArmy = new Army(file);
-            obsFirstArmy.setAll(firstArmy.getAllUnits());
+        try {
+            if(armyCheck.equals(army1)){
+                firstArmy = new Army(file);
+                obsFirstArmy.setAll(firstArmy.getAllUnits());
+            }
+            else if(armyCheck.equals(army2)){
+                secondArmy = new Army(file);
+                obsSecondArmy.setAll(secondArmy.getAllUnits());
+            }
+            importButton.setBorder(null);
+
+        }catch (Exception e){
+            importButton.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
+
         }
-        else if(armyCheck.equals(army2)){
-            secondArmy = new Army(file);
-            obsSecondArmy.setAll(secondArmy.getAllUnits());
-        }
+
     }
 
     @FXML
@@ -739,9 +773,28 @@ public class BattleSimController implements Initializable {
 
     @FXML
     public void deployArmy(){
+        importButton.setBorder(null);
         addArmyGrid.setVisible(false);
         battleGrid.setVisible(true);
         successText.setVisible(false);
+        if(armyCheck.equals(army1)){
+            if(!firstArmy.getAllUnits().isEmpty()){
+                battleVisualsLeft();
+            }
+            else {
+                nodePaneLeft.getChildren().clear();
+            }
+
+        }
+        else if(armyCheck.equals(army2)){
+            if(!secondArmy.getAllUnits().isEmpty()){
+                battleVisualsRight();
+            }
+            else {
+                nodePaneRight.getChildren().clear();
+            }
+
+        }
 
     }
 
@@ -756,8 +809,11 @@ public class BattleSimController implements Initializable {
         Battle battle = new Battle(firstArmy, secondArmy, terrain);
         firsArmyCopy = new Army(firstArmy);
         secondArmyCopy = new Army(secondArmy);
-        Army winner = battle.simulate();
+        if((leftArmy != null) && (rightArmy != null)){
+            animate();
+        }
 
+        Army winner = battle.simulate();
 
         winnerImage.fitHeightProperty().bind(winnerPane.heightProperty());
         winnerImage.fitWidthProperty().bind(winnerPane.widthProperty());
@@ -782,9 +838,24 @@ public class BattleSimController implements Initializable {
         HBox.setHgrow(retryButton, Priority.ALWAYS);
         exitToMenuButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         HBox.setHgrow(exitToMenuButton, Priority.ALWAYS);
+        if((leftArmy == null) || (rightArmy == null)){
+            winnerBackground.setVisible(true);
+            winnerGrid.setVisible(true);
+        }
+        else {
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            winnerBackground.setVisible(true);
+                            winnerGrid.setVisible(true);
+                        }
+                    },
+                    8000
+            );
+        }
 
-        winnerBackground.setVisible(true);
-        winnerGrid.setVisible(true);
+
     }
 
     @FXML
@@ -794,6 +865,15 @@ public class BattleSimController implements Initializable {
 
         winnerBackground.setVisible(false);
         winnerGrid.setVisible(false);
+
+        if (!firstArmy.getAllUnits().isEmpty()){
+            battleVisualsLeft();
+        }
+        if(!secondArmy.getAllUnits().isEmpty()){
+            battleVisualsRight();
+        }
+
+
     }
 
     @FXML
@@ -895,4 +975,174 @@ public class BattleSimController implements Initializable {
         statsGrid.setVisible(false);
         winnerBackground.setVisible(false);
     }
+
+
+
+    @FXML
+    private void battleVisualsLeft(){
+        nodePaneLeft.getChildren().clear();
+        nodeGroupLeft = new Group();
+        nodePaneLeft.getChildren().add(nodeGroupLeft);
+
+        int m = firstArmy.getAllUnits().size();
+        int commanders = firstArmy.getCommanderUnits().size();
+        int cavalry = firstArmy.getCavalryUnits().size();
+        int infantry = firstArmy.getInfantryUnits().size();
+        int ranged = firstArmy.getRangedUnits().size();
+
+
+        leftArmy = new UnitNode[4][m];
+        m = ranged;
+
+        Image commanderImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/CommanderLeft.png");
+        Image cavalryImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/CavalryLeft.png");
+        Image infantryImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/InfantryLeft.png");
+        Image rangedImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/RangedLeft.png");
+
+        Image chosenImage = rangedImage;
+
+        for( int i=0; i < 4; i++) {
+
+            for( int j=0; j < m; j++) {
+
+                UnitNode node = new UnitNode(i * 80, j * 80, 80, 80, chosenImage);
+
+                nodeGroupLeft.getChildren().add(node);
+
+                leftArmy[i][j] = node;
+            }
+            if(i == 0){
+                m = infantry;
+                chosenImage = infantryImage;
+            }
+            else if(i == 1){
+                m = cavalry;
+                chosenImage = cavalryImage;
+            }
+            else if(i == 2){
+                m = commanders;
+                chosenImage = commanderImage;
+            }
+        }
+        nodePaneLeft.setAlignment(Pos.CENTER_LEFT);
+
+    }
+
+    @FXML
+    private void battleVisualsRight(){
+        nodePaneRight.getChildren().clear();
+        nodeGroupRight = new Group();
+        nodePaneRight.getChildren().add(nodeGroupRight);
+        nodeGroupRight.getChildren().clear();
+        int m = secondArmy.getAllUnits().size();
+        int commanders = secondArmy.getCommanderUnits().size();
+        int cavalry = secondArmy.getCavalryUnits().size();
+        int infantry = secondArmy.getInfantryUnits().size();
+        int ranged = secondArmy.getRangedUnits().size();
+
+
+        rightArmy = new UnitNode[4][m];
+        m = ranged;
+
+        Image commanderImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/CommanderRight.png");
+        Image cavalryImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/CavalryRight.png");
+        Image infantryImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/InfantryRight.png");
+        Image rangedImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/RangedRight.png");
+
+        Image chosenImage = rangedImage;
+
+        for( int i=0; i < 4; i++) {
+
+            for( int j=0; j < m; j++) {
+
+                UnitNode node = new UnitNode(i * 80, j * 80, 80, 80, chosenImage);
+
+                nodeGroupRight.getChildren().add(node);
+
+                rightArmy[i][j] = node;
+            }
+            if(i == 0){
+                m = infantry;
+                chosenImage = infantryImage;
+            }
+            else if(i == 1){
+                m = cavalry;
+                chosenImage = cavalryImage;
+            }
+            else if(i == 2){
+                m = commanders;
+                chosenImage = commanderImage;
+            }
+
+        }
+        nodePaneRight.setAlignment(Pos.CENTER_RIGHT);
+
+    }
+
+    private void animate() {
+        int[] size1 = { firstArmy.getRangedUnits().size(),firstArmy.getInfantryUnits().size(), firstArmy.getCavalryUnits().size(), firstArmy.getCommanderUnits().size()};
+        int max1 = Arrays.stream(size1).max().getAsInt();
+        int idx1 = ArrayUtils.indexOf(size1, max1);
+        int[] size2 = { secondArmy.getRangedUnits().size(),secondArmy.getInfantryUnits().size(), secondArmy.getCavalryUnits().size(), secondArmy.getCommanderUnits().size()};
+        int max2 = Arrays.stream(size2).max().getAsInt();
+        int idx2 = ArrayUtils.indexOf(size2, max2);
+        double nodeheightleft = 0;
+        double nodeHeightRight = 0;
+        UnitNode nodeLeft = leftArmy[idx1][max1/2];
+        UnitNode nodeRight = rightArmy[idx2][max2/2];
+        double groupWidthLeft = nodeGroupLeft.getBoundsInLocal().getWidth();
+        double groupWidthRight = nodeGroupRight.getBoundsInLocal().getWidth();
+        System.out.println(groupWidthLeft);
+        if(max1%2 == 0){
+            nodeheightleft = nodeLeft.getHeight()/2;
+        }
+        if(max2%2 == 0){
+            nodeHeightRight = nodeRight.getHeight()/2;
+        }
+
+
+        Path pathLeft = new Path();
+        pathLeft.getElements().add (new MoveTo(groupWidthLeft/2, nodeLeft.getTranslateY() + nodeLeft.getBoundsInParent().getHeight() / 2.0 - nodeheightleft));
+        pathLeft.getElements().add (new LineTo( root.getWidth()/2-groupWidthLeft/2, nodeLeft.getTranslateY() + nodeLeft.getBoundsInParent().getHeight() / 2.0 - nodeheightleft));
+
+        PathTransition pathTransitionLeft = new PathTransition();
+        pathTransitionLeft.setDuration(Duration.millis(5000));
+        pathTransitionLeft.setNode(nodeGroupLeft);
+        pathTransitionLeft.setPath(pathLeft);
+        pathTransitionLeft.play();
+
+        Path pathRight = new Path();
+        pathRight.getElements().add (new MoveTo(groupWidthRight/2, nodeRight.getTranslateY() + nodeRight.getBoundsInParent().getHeight() / 2.0 - nodeHeightRight));
+        pathRight.getElements().add (new LineTo( -(root.getWidth()/2-groupWidthRight-(groupWidthRight/2)), nodeRight.getTranslateY() + nodeRight.getBoundsInParent().getHeight() / 2.0 - nodeHeightRight));
+
+        PathTransition pathTransitionRight = new PathTransition();
+        pathTransitionRight.setDuration(Duration.millis(5000));
+        pathTransitionRight.setNode(nodeGroupRight);
+        pathTransitionRight.setPath(pathRight);
+        pathTransitionRight.play();
+
+
+
+    }
+
+
+    public static class UnitNode extends StackPane {
+
+        public UnitNode(double x, double y, double width, double height, Image image) {
+
+            ImageView unitImage = new ImageView(image);
+            Rectangle rectangle = new Rectangle( width, height);
+            unitImage.fitWidthProperty().bind(rectangle.widthProperty());
+            unitImage.fitHeightProperty().bind(rectangle.heightProperty());
+
+            setTranslateX( x);
+            setTranslateY( y);
+
+            getChildren().add(unitImage);
+
+        }
+
+    }
+
+
 }
