@@ -28,6 +28,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.TimerTask;
 
+/**
+ * Controller used for StartPage.fxml.
+ */
 public class StartPageController implements Initializable {
 
     @FXML
@@ -71,13 +74,21 @@ public class StartPageController implements Initializable {
 
     private Timer timer = new Timer();
 
-    private static Image choosenMap;
+    private static Image chosenMap;
 
     private ImageView[] maps;
+
+    /**
+     * {@inheritDoc}
+     * Sets up layout of scene and binds elements to achieve dynamic scaling.
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        choosenMap = map1.getImage();
+        chosenMap = map1.getImage();
         backgroundImage.fitHeightProperty().bind(root.heightProperty());
         backgroundImage.fitWidthProperty().bind(root.widthProperty());
 
@@ -106,6 +117,12 @@ public class StartPageController implements Initializable {
         setBackgroundImage();
 
     }
+
+    /**
+     * Sets the background image for the front page.
+     * Background image changes every 8 seconds between preset images.
+     * Uses a Timer and timerTask to loop through images.
+     */
     @FXML
     public void setBackgroundImage(){
                 timer.scheduleAtFixedRate(
@@ -127,6 +144,12 @@ public class StartPageController implements Initializable {
                 );
     }
 
+    /**
+     * Selects a map and creates on click effects.
+     * Uses onclick event to establish chosen map.
+     *
+     * @param event Onclick event
+     */
     @FXML
     public void mapClick(Event event){
         InnerShadow highlight = new InnerShadow();
@@ -139,13 +162,19 @@ public class StartPageController implements Initializable {
         ImageView temp = (ImageView) event.getTarget();
         for(ImageView m: maps){
             if(m.equals(temp)){
-                choosenMap = m.getImage();
+                chosenMap = m.getImage();
                 m.setEffect(highlight);
             }
             else m.setEffect(null);
         }
     }
 
+    /**
+     * Changes scene to BattleSim.fxml and {@link BattleSimController}.
+     *
+     * @param event Onclick event
+     * @throws IOException  Wrong file path
+     */
     @FXML
     public void startBattle(ActionEvent event) throws IOException {
         timer.cancel();
@@ -158,10 +187,19 @@ public class StartPageController implements Initializable {
 
     }
 
-    public static Image getChoosenMap(){
-        return choosenMap;
+    /**
+     * Gets chosenMap.
+     * Used as background in BattleSim.fxml.
+     * Each map corresponds to a terrain in a battle.
+     * @return
+     */
+    public static Image getChosenMap(){
+        return chosenMap;
     }
 
+    /**
+     * Exits program.
+     */
     public void exit(){
         timer.cancel();
         Stage stage = (Stage) offButton.getScene().getWindow();

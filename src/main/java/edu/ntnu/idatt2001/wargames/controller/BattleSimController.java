@@ -42,6 +42,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * Controller used for BattleSim.fxml.
+ */
 public class BattleSimController implements Initializable {
 
     @FXML
@@ -263,7 +266,6 @@ public class BattleSimController implements Initializable {
     private double fontSize = 50;
     private double armyFontSize = 40;
 
-
     private Map<String, Terrain> mapToTerrain;
     private Terrain terrain;
 
@@ -271,7 +273,18 @@ public class BattleSimController implements Initializable {
     private UnitNode[][] leftArmy;
     private UnitNode[][] rightArmy;
 
-
+    /**
+     * {@inheritDoc}
+     * Sets up layout of scene.
+     * Binds elements to achieve dynamic scaling.
+     * Creates fonts.
+     * Sets up tables with columns.
+     * Sets chosenMap as background image.
+     * Sets terrain based on map selection.
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         firstArmy = new Army("firstArmy");
@@ -288,7 +301,7 @@ public class BattleSimController implements Initializable {
         obsFirstArmy = FXCollections.observableArrayList(firstArmy.getAllUnits());
         obsSecondArmy = FXCollections.observableArrayList(secondArmy.getAllUnits());
 
-        backgroundMap.setImage(StartPageController.getChoosenMap());
+        backgroundMap.setImage(StartPageController.getChosenMap());
         backgroundMap.setPreserveRatio(false);
         backgroundMap.fitHeightProperty().bind(root.heightProperty());
         backgroundMap.fitWidthProperty().bind(root.widthProperty());
@@ -569,6 +582,10 @@ public class BattleSimController implements Initializable {
     }
 
 
+    /**
+     * Represents popup menu when clicking menu button.
+     * Sets scaling properties to ensure dynamic scaling.
+     */
     @FXML
     public void menu(){
         home.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -580,6 +597,13 @@ public class BattleSimController implements Initializable {
         menuGrid.setVisible(true);
     }
 
+    /**
+     * Represents menu button in popup menu.
+     * Changes scene to StartPage.fxml and {@link StartPageController}.
+     *
+     * @param event Onclick event
+     * @throws IOException  Wrong file path
+     */
     @FXML
     public void toStartPage(ActionEvent event) throws IOException {
         Parent viewPage = FXMLLoader.load(Objects.requireNonNull(StartPageController.class.getResource("/edu/ntnu/idatt2001/wargames/frontend/StartPage.fxml")));
@@ -590,6 +614,13 @@ public class BattleSimController implements Initializable {
         window.show();
     }
 
+    /**
+     * Represents reset button in popup menu.
+     * Resets stage to initial state.
+     *
+     * @param event Onclick event
+     * @throws IOException  Wrong file path
+     */
     @FXML
     public void resetBattleSim(ActionEvent event) throws IOException {
         Parent viewPage = FXMLLoader.load(Objects.requireNonNull(StartPageController.class.getResource("/edu/ntnu/idatt2001/wargames/frontend/BattleSim.fxml")));
@@ -600,11 +631,23 @@ public class BattleSimController implements Initializable {
         window.show();
     }
 
+    /**
+     * Represents cancel button in popup menu.
+     * Exits popup menu.
+     */
     @FXML
     public void cancelMenu(){
         menuGrid.setVisible(false);
     }
 
+    /**
+     * Represents Army setup menu when clicking either Army button.
+     * Sets up layout and binds elements to ensure dynamic scaling.
+     * Creates red borders around elements on erroneous user activity.
+     * Populates army tableView with army units.
+     *
+     * @param event Onclick event
+     */
     @FXML
     public void addArmy(ActionEvent event){
 
@@ -683,6 +726,10 @@ public class BattleSimController implements Initializable {
         addArmyGrid.setVisible(true);
     }
 
+    /**
+     * Represents Add button in army setup.
+     * Adds unit to chosen army.
+     */
     @FXML
     public void addUnitToArmy(){
         UnitType type = (UnitType) typeChoice.getValue();
@@ -710,6 +757,11 @@ public class BattleSimController implements Initializable {
         }
     }
 
+    /**
+     * Represents Import button in army setup.
+     * Imports army from file through a file selector.
+     * Creates a red border if import does not succeed.
+     */
     @FXML
     public void importArmy(){
         FileChooser fileChooser = new FileChooser();
@@ -732,6 +784,10 @@ public class BattleSimController implements Initializable {
 
     }
 
+    /**
+     * Represents Save button in army setup.
+     * Saves army to file in a chosen directory through a directory selector.
+     */
     @FXML
     public void saveArmy(){
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -744,6 +800,11 @@ public class BattleSimController implements Initializable {
         }
     }
 
+    /**
+     * Represents Rename button in army setup.
+     * Sets new name of chosen army.
+     * Displays success text on completion.
+     */
     @FXML
     public void renameArmy(){
         String newName = renameArmyField.getText();
@@ -759,6 +820,10 @@ public class BattleSimController implements Initializable {
         }
     }
 
+    /**
+     * Represents Clear button in army setup.
+     * Removes all units from chosen army and tableview.
+     */
     @FXML
     public void clearArmy(){
         if(armyCheck.equals(army1)){
@@ -771,6 +836,12 @@ public class BattleSimController implements Initializable {
         }
     }
 
+    /**
+     * Represents Deploy button in army setup.
+     * Deploys army to battlefield.
+     * Uses {@link #battleVisualsLeft()} and {@link #battleVisualsRight()} to create
+     * unit graphics and visuals.
+     */
     @FXML
     public void deployArmy(){
         importButton.setBorder(null);
@@ -784,7 +855,6 @@ public class BattleSimController implements Initializable {
             else {
                 nodePaneLeft.getChildren().clear();
             }
-
         }
         else if(armyCheck.equals(army2)){
             if(!secondArmy.getAllUnits().isEmpty()){
@@ -793,11 +863,17 @@ public class BattleSimController implements Initializable {
             else {
                 nodePaneRight.getChildren().clear();
             }
-
         }
-
     }
 
+    /**
+     * Represents Battle button.
+     * Creates {@link Battle} and uses {@link Battle#simulate()}.
+     * Sets terrain of all participating units.
+     * Uses {@link Army#Army(Army)} to create deep copies used for restoring armies.
+     * Uses {@link #animate()} to animate armies charging.
+     * Creates winner screen at end of battle.
+     */
     @FXML
     public void startBattle(){
         for(Unit unit: firstArmy.getAllUnits()){
@@ -858,6 +934,11 @@ public class BattleSimController implements Initializable {
 
     }
 
+    /**
+     * Represents Retry button on winner screen.
+     * Resets battle to before simulation start.
+     * Uses army deep copies to restore armies.
+     */
     @FXML
     public void retryBattle(){
         firstArmy = new Army(firsArmyCopy);
@@ -876,6 +957,10 @@ public class BattleSimController implements Initializable {
 
     }
 
+    /**
+     * Represents Stats popup when clicking Stats button.
+     * Sets up layout and fills in correct army info.
+     */
     @FXML
     public void seeStats(){
         HBox.setHgrow(firstArmyTitle, Priority.ALWAYS);
@@ -969,6 +1054,10 @@ public class BattleSimController implements Initializable {
         winnerBackground.setVisible(true);
     }
 
+    /**
+     * Represents Exit button in stats popup.
+     * Exits stats popup.
+     */
     @FXML
     public void exitStats(){
         battleGrid.setVisible(true);
@@ -976,8 +1065,11 @@ public class BattleSimController implements Initializable {
         winnerBackground.setVisible(false);
     }
 
-
-
+    /**
+     * Creates Graphics and visuals for each unit in left army.
+     * Uses {@link UnitNode} to represent each unit in army.
+     * Creates a multidimensional array where each unit is stored.
+     */
     @FXML
     private void battleVisualsLeft(){
         nodePaneLeft.getChildren().clear();
@@ -1028,6 +1120,11 @@ public class BattleSimController implements Initializable {
 
     }
 
+    /**
+     * Creates Graphics and visuals for each unit in right army.
+     * Uses {@link UnitNode} to represent each unit in army.
+     * Creates a multidimensional array where each unit is stored.
+     */
     @FXML
     private void battleVisualsRight(){
         nodePaneRight.getChildren().clear();
@@ -1079,6 +1176,10 @@ public class BattleSimController implements Initializable {
 
     }
 
+    /**
+     * Creates charging animation when starting battle.
+     * Sets up pathTransition for each army group of {@link UnitNode}'s to follow
+     */
     private void animate() {
         int[] size1 = { firstArmy.getRangedUnits().size(),firstArmy.getInfantryUnits().size(), firstArmy.getCavalryUnits().size(), firstArmy.getCommanderUnits().size()};
         int max1 = Arrays.stream(size1).max().getAsInt();
@@ -1126,6 +1227,11 @@ public class BattleSimController implements Initializable {
     }
 
 
+    /**
+     * Represent a Unit on the battlefield.
+     * Sets different unit icons depending on unit type.
+     * Stores x and y coordinates of unit.
+     */
     public static class UnitNode extends StackPane {
 
         public UnitNode(double x, double y, double width, double height, Image image) {
