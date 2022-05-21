@@ -93,16 +93,16 @@ public class Army {
                 int armor = Integer.parseInt(fileLine[4]);
 
                 if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*infantry.*")){
-                    units.add(new InfantryUnit(name, health, attack, armor));
+                    units.add(UnitFactory.getComplexUnit(UnitType.INFANTRY, name, health, attack, armor));
                 }
                 else if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*ranged.*")){
-                    units.add(new RangedUnit(name, health, attack, armor));
+                    units.add(UnitFactory.getComplexUnit(UnitType.RANGED, name, health, attack, armor));
                 }
                 else if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*cavalry.*")){
-                    units.add(new CavalryUnit(name, health, attack, armor));
+                    units.add(UnitFactory.getComplexUnit(UnitType.CAVALRY, name, health, attack, armor));
                 }
                 else if(fileLine[0].toLowerCase(Locale.ROOT).matches(".*commander.*")){
-                    units.add(new CommanderUnit(name, health, attack, armor));
+                    units.add(UnitFactory.getComplexUnit(UnitType.COMMANDER, name, health, attack, armor));
                 }
                 else throw new IllegalArgumentException("Invalid unit type");
             }

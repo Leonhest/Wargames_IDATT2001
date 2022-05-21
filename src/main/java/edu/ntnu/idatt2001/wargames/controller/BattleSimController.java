@@ -52,7 +52,7 @@ public class BattleSimController implements Initializable {
     @FXML
     private ImageView backgroundMap;
     @FXML
-    private Button battle;
+    private Button battleButton;
     @FXML
     private Button army1;
     @FXML
@@ -273,6 +273,8 @@ public class BattleSimController implements Initializable {
     private UnitNode[][] leftArmy;
     private UnitNode[][] rightArmy;
 
+    private double unitSize;
+
     /**
      * {@inheritDoc}
      * Sets up layout of scene.
@@ -302,12 +304,13 @@ public class BattleSimController implements Initializable {
         obsSecondArmy = FXCollections.observableArrayList(secondArmy.getAllUnits());
 
         backgroundMap.setImage(StartPageController.getChosenMap());
+
         backgroundMap.setPreserveRatio(false);
         backgroundMap.fitHeightProperty().bind(root.heightProperty());
         backgroundMap.fitWidthProperty().bind(root.widthProperty());
 
-        battle.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        HBox.setHgrow(battle, Priority.ALWAYS);
+        battleButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        HBox.setHgrow(battleButton, Priority.ALWAYS);
         army1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         HBox.setHgrow(army1, Priority.ALWAYS);
         army2.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -578,7 +581,7 @@ public class BattleSimController implements Initializable {
         statsExitImage.fitWidthProperty().bind(statsExitPane.widthProperty());
         statsExitImage.fitHeightProperty().bind(statsExitPane.heightProperty());
 
-
+        unitSize = 1000;
     }
 
 
@@ -684,6 +687,9 @@ public class BattleSimController implements Initializable {
                     }
                 } catch (NumberFormatException e) {
                     field.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
+                }
+                  catch (Exception e){
+
                 }
             });
         }
@@ -876,6 +882,7 @@ public class BattleSimController implements Initializable {
      */
     @FXML
     public void startBattle(){
+        battleButton.setDisable(true);
         for(Unit unit: firstArmy.getAllUnits()){
             unit.setTerrain(terrain);
         }
@@ -885,6 +892,7 @@ public class BattleSimController implements Initializable {
         Battle battle = new Battle(firstArmy, secondArmy, terrain);
         firsArmyCopy = new Army(firstArmy);
         secondArmyCopy = new Army(secondArmy);
+
         if((leftArmy != null) && (rightArmy != null)){
             animate();
         }
@@ -917,6 +925,7 @@ public class BattleSimController implements Initializable {
         if((leftArmy == null) || (rightArmy == null)){
             winnerBackground.setVisible(true);
             winnerGrid.setVisible(true);
+            battleButton.setDisable(false);
         }
         else {
             new java.util.Timer().schedule(
@@ -925,11 +934,13 @@ public class BattleSimController implements Initializable {
                         public void run() {
                             winnerBackground.setVisible(true);
                             winnerGrid.setVisible(true);
+                            battleButton.setDisable(false);
                         }
                     },
                     8000
             );
         }
+
 
 
     }
@@ -954,6 +965,7 @@ public class BattleSimController implements Initializable {
             battleVisualsRight();
         }
 
+        unitSize = 1000;
 
     }
 
@@ -1065,6 +1077,9 @@ public class BattleSimController implements Initializable {
         winnerBackground.setVisible(false);
     }
 
+    int idx1 = 0;
+    int max1 = 0;
+
     /**
      * Creates Graphics and visuals for each unit in left army.
      * Uses {@link UnitNode} to represent each unit in army.
@@ -1072,6 +1087,10 @@ public class BattleSimController implements Initializable {
      */
     @FXML
     private void battleVisualsLeft(){
+        int[] size1 = { firstArmy.getRangedUnits().size(),firstArmy.getInfantryUnits().size(), firstArmy.getCavalryUnits().size(), firstArmy.getCommanderUnits().size()};
+        max1 = Arrays.stream(size1).max().getAsInt();
+        idx1 = ArrayUtils.indexOf(size1, max1);
+
         nodePaneLeft.getChildren().clear();
         nodeGroupLeft = new Group();
         nodePaneLeft.getChildren().add(nodeGroupLeft);
@@ -1081,7 +1100,13 @@ public class BattleSimController implements Initializable {
         int cavalry = firstArmy.getCavalryUnits().size();
         int infantry = firstArmy.getInfantryUnits().size();
         int ranged = firstArmy.getRangedUnits().size();
-
+        double newSize = root.getHeight()/(max1*1.5);
+        if(newSize < unitSize){
+            unitSize = newSize;
+        }
+        if(unitSize>80){
+            unitSize = 80;
+        }
 
         leftArmy = new UnitNode[4][m];
         m = ranged;
@@ -1090,14 +1115,23 @@ public class BattleSimController implements Initializable {
         Image cavalryImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/CavalryLeft.png");
         Image infantryImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/InfantryLeft.png");
         Image rangedImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/RangedLeft.png");
+        Image blank = new Image("/edu/ntnu/idatt2001/wargames/images/units/Blank.png");
 
         Image chosenImage = rangedImage;
 
         for( int i=0; i < 4; i++) {
 
+            int k = 0;
+            for(k = 0; k<(max1-m)/2; k++){
+                UnitNode node = new UnitNode(i * unitSize, k * unitSize, unitSize, unitSize, blank);
+                nodeGroupLeft.getChildren().add(node);
+
+            }
+
             for( int j=0; j < m; j++) {
 
-                UnitNode node = new UnitNode(i * 80, j * 80, 80, 80, chosenImage);
+
+                UnitNode node = new UnitNode(i * unitSize, (j+k) * unitSize, unitSize, unitSize, chosenImage);
 
                 nodeGroupLeft.getChildren().add(node);
 
@@ -1120,6 +1154,8 @@ public class BattleSimController implements Initializable {
 
     }
 
+    int idx2 = 0;
+    int max2 = 0;
     /**
      * Creates Graphics and visuals for each unit in right army.
      * Uses {@link UnitNode} to represent each unit in army.
@@ -1127,6 +1163,11 @@ public class BattleSimController implements Initializable {
      */
     @FXML
     private void battleVisualsRight(){
+        int[] size2 = { secondArmy.getRangedUnits().size(),secondArmy.getInfantryUnits().size(), secondArmy.getCavalryUnits().size(), secondArmy.getCommanderUnits().size()};
+        max2 = Arrays.stream(size2).max().getAsInt();
+        idx2 = ArrayUtils.indexOf(size2, max2);
+
+
         nodePaneRight.getChildren().clear();
         nodeGroupRight = new Group();
         nodePaneRight.getChildren().add(nodeGroupRight);
@@ -1136,7 +1177,13 @@ public class BattleSimController implements Initializable {
         int cavalry = secondArmy.getCavalryUnits().size();
         int infantry = secondArmy.getInfantryUnits().size();
         int ranged = secondArmy.getRangedUnits().size();
-
+        double newSize = root.getHeight()/(max2*1.5);
+        if(newSize < unitSize){
+            unitSize = newSize;
+        }
+        if(unitSize>80){
+            unitSize = 80;
+        }
 
         rightArmy = new UnitNode[4][m];
         m = ranged;
@@ -1145,14 +1192,22 @@ public class BattleSimController implements Initializable {
         Image cavalryImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/CavalryRight.png");
         Image infantryImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/InfantryRight.png");
         Image rangedImage = new Image("/edu/ntnu/idatt2001/wargames/images/units/RangedRight.png");
+        Image blank = new Image("/edu/ntnu/idatt2001/wargames/images/units/Blank.png");
 
         Image chosenImage = rangedImage;
 
         for( int i=0; i < 4; i++) {
 
+            int k = 0;
+            for(k = 0; k<(max2-m)/2; k++){
+                UnitNode node = new UnitNode(i * unitSize, k * unitSize, unitSize, unitSize, blank);
+                nodeGroupLeft.getChildren().add(node);
+
+            }
+
             for( int j=0; j < m; j++) {
 
-                UnitNode node = new UnitNode(i * 80, j * 80, 80, 80, chosenImage);
+                UnitNode node = new UnitNode(i * unitSize, (j+k) * unitSize, unitSize, unitSize, chosenImage);
 
                 nodeGroupRight.getChildren().add(node);
 
@@ -1181,19 +1236,15 @@ public class BattleSimController implements Initializable {
      * Sets up pathTransition for each army group of {@link UnitNode}'s to follow
      */
     private void animate() {
-        int[] size1 = { firstArmy.getRangedUnits().size(),firstArmy.getInfantryUnits().size(), firstArmy.getCavalryUnits().size(), firstArmy.getCommanderUnits().size()};
-        int max1 = Arrays.stream(size1).max().getAsInt();
-        int idx1 = ArrayUtils.indexOf(size1, max1);
-        int[] size2 = { secondArmy.getRangedUnits().size(),secondArmy.getInfantryUnits().size(), secondArmy.getCavalryUnits().size(), secondArmy.getCommanderUnits().size()};
-        int max2 = Arrays.stream(size2).max().getAsInt();
-        int idx2 = ArrayUtils.indexOf(size2, max2);
+
+        System.out.println(idx1);
+        System.out.println(idx2);
         double nodeheightleft = 0;
         double nodeHeightRight = 0;
         UnitNode nodeLeft = leftArmy[idx1][max1/2];
         UnitNode nodeRight = rightArmy[idx2][max2/2];
         double groupWidthLeft = nodeGroupLeft.getBoundsInLocal().getWidth();
         double groupWidthRight = nodeGroupRight.getBoundsInLocal().getWidth();
-        System.out.println(groupWidthLeft);
         if(max1%2 == 0){
             nodeheightleft = nodeLeft.getHeight()/2;
         }

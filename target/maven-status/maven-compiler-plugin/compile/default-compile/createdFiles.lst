@@ -14,4 +14,5 @@ edu/ntnu/idatt2001/wargames/backend/army/InfantryUnit.class
 edu/ntnu/idatt2001/wargames/controller/StartPageController$1.class
 edu/ntnu/idatt2001/wargames/controller/BattleSimController.class
 edu/ntnu/idatt2001/wargames/backend/army/Army.class
+edu/ntnu/idatt2001/wargames/controller/Main.class
 edu/ntnu/idatt2001/wargames/backend/army/UnitFactory.class

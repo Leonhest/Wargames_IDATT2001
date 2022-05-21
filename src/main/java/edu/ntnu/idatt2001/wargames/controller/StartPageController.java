@@ -121,7 +121,7 @@ public class StartPageController implements Initializable {
     /**
      * Sets the background image for the front page.
      * Background image changes every 8 seconds between preset images.
-     * Uses a Timer and timerTask to loop through images.
+     * Uses a Timer and TimeTask to loop through images.
      */
     @FXML
     public void setBackgroundImage(){
