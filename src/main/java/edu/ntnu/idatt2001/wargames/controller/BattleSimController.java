@@ -275,6 +275,11 @@ public class BattleSimController implements Initializable {
 
     private double unitSize;
 
+    private Timer timer = new Timer();
+    private Timer timer2 = new Timer();
+
+    Army winner;
+
     /**
      * {@inheritDoc}
      * Sets up layout of scene.
@@ -615,6 +620,9 @@ public class BattleSimController implements Initializable {
         window.setScene(page);
         window.setMaximized(true);
         window.show();
+        timer.cancel();
+        timer2.cancel();
+
     }
 
     /**
@@ -689,7 +697,6 @@ public class BattleSimController implements Initializable {
                     field.setBorder(new Border(new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, new CornerRadii(3), new BorderWidths(2), new Insets(-2))));
                 }
                   catch (Exception e){
-
                 }
             });
         }
@@ -882,6 +889,8 @@ public class BattleSimController implements Initializable {
      */
     @FXML
     public void startBattle(){
+        firsArmyCopy = new Army(firstArmy);
+        secondArmyCopy = new Army(secondArmy);
         battleButton.setDisable(true);
         for(Unit unit: firstArmy.getAllUnits()){
             unit.setTerrain(terrain);
@@ -890,14 +899,13 @@ public class BattleSimController implements Initializable {
             unit.setTerrain(terrain);
         }
         Battle battle = new Battle(firstArmy, secondArmy, terrain);
-        firsArmyCopy = new Army(firstArmy);
-        secondArmyCopy = new Army(secondArmy);
 
-        if((leftArmy != null) && (rightArmy != null)){
+        winner = battle.simulate();
+        if((leftArmy != null && firsArmyCopy.getAllUnits().size() != 0) && (rightArmy != null && secondArmyCopy.getAllUnits().size() != 0)){
             animate();
         }
 
-        Army winner = battle.simulate();
+
 
         winnerImage.fitHeightProperty().bind(winnerPane.heightProperty());
         winnerImage.fitWidthProperty().bind(winnerPane.widthProperty());
@@ -922,6 +930,13 @@ public class BattleSimController implements Initializable {
         HBox.setHgrow(retryButton, Priority.ALWAYS);
         exitToMenuButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         HBox.setHgrow(exitToMenuButton, Priority.ALWAYS);
+        int delay = 10000;
+        if(winner.getName().equals(firstArmy.getName())){
+            delay = 5000 + secondArmyCopy.getAllUnits().size()*1000;
+        }
+        else if (winner.getName().equals(secondArmy.getName())){
+            delay = 5000 + firsArmyCopy.getAllUnits().size()*1000;
+        }
         if((leftArmy == null) || (rightArmy == null)){
             winnerBackground.setVisible(true);
             winnerGrid.setVisible(true);
@@ -932,12 +947,29 @@ public class BattleSimController implements Initializable {
                     new java.util.TimerTask() {
                         @Override
                         public void run() {
+                            timer.cancel();
+                            timer2.cancel();
+                            timer.purge();
+                            timer2.purge();
+                            this.cancel();
+
+
+                        }
+                    },
+                    delay-1000
+            );
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
                             winnerBackground.setVisible(true);
                             winnerGrid.setVisible(true);
                             battleButton.setDisable(false);
+                            this.cancel();
+
                         }
                     },
-                    8000
+                    delay
             );
         }
 
@@ -957,13 +989,17 @@ public class BattleSimController implements Initializable {
 
         winnerBackground.setVisible(false);
         winnerGrid.setVisible(false);
+        nodePaneRight.getChildren().clear();
+        nodePaneLeft.getChildren().clear();
 
-        if (!firstArmy.getAllUnits().isEmpty()){
+        if(!firstArmy.getAllUnits().isEmpty()){
             battleVisualsLeft();
         }
+
         if(!secondArmy.getAllUnits().isEmpty()){
             battleVisualsRight();
         }
+
 
         unitSize = 1000;
 
@@ -1237,8 +1273,6 @@ public class BattleSimController implements Initializable {
      */
     private void animate() {
 
-        System.out.println(idx1);
-        System.out.println(idx2);
         double nodeheightleft = 0;
         double nodeHeightRight = 0;
         UnitNode nodeLeft = leftArmy[idx1][max1/2];
@@ -1258,7 +1292,7 @@ public class BattleSimController implements Initializable {
         pathLeft.getElements().add (new LineTo( root.getWidth()/2-groupWidthLeft/2, nodeLeft.getTranslateY() + nodeLeft.getBoundsInParent().getHeight() / 2.0 - nodeheightleft));
 
         PathTransition pathTransitionLeft = new PathTransition();
-        pathTransitionLeft.setDuration(Duration.millis(5000));
+        pathTransitionLeft.setDuration(Duration.millis(4000));
         pathTransitionLeft.setNode(nodeGroupLeft);
         pathTransitionLeft.setPath(pathLeft);
         pathTransitionLeft.play();
@@ -1268,10 +1302,131 @@ public class BattleSimController implements Initializable {
         pathRight.getElements().add (new LineTo( -(root.getWidth()/2-groupWidthRight-(groupWidthRight/2)), nodeRight.getTranslateY() + nodeRight.getBoundsInParent().getHeight() / 2.0 - nodeHeightRight));
 
         PathTransition pathTransitionRight = new PathTransition();
-        pathTransitionRight.setDuration(Duration.millis(5000));
+        pathTransitionRight.setDuration(Duration.millis(4000));
         pathTransitionRight.setNode(nodeGroupRight);
         pathTransitionRight.setPath(pathRight);
         pathTransitionRight.play();
+
+        if(winner.getName().equals(secondArmy.getName())){
+            timer = new Timer();
+            int secondSize = firsArmyCopy.getAllUnits().size();
+            final int[] roundCheck = {0};
+            timer.scheduleAtFixedRate(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+
+                            boolean on = true;
+                            while (on){
+                                Random rand = new Random();
+                                int collum = rand.nextInt(4);
+                                int length = Arrays.stream(leftArmy[collum]).filter(Objects::nonNull).toArray().length;
+                                if(!(length == 0)){
+                                    int row = rand.nextInt(length);
+                                    if(!(leftArmy[collum][row] == null) && leftArmy[collum][row].isVisible()){
+                                        leftArmy[collum][row].setVisible(false);
+                                        on = false;
+                                        roundCheck[0]++;
+                                    }
+
+                                }
+                                if (roundCheck[0] == secondSize){
+                                    on = false;
+                                    timer.cancel();
+                                }
+                            }
+                        }
+                    },
+                    4000, 1000
+            );
+            int timeDelay = firsArmyCopy.getAllUnits().size()*2500/(secondArmyCopy.getAllUnits().size());
+            timer2 = new Timer();
+            timer2.scheduleAtFixedRate(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+                            boolean on = true;
+                            while (on){
+                                Random rand = new Random();
+                                int collum = rand.nextInt(4);
+                                int length = Arrays.stream(rightArmy[collum]).filter(Objects::nonNull).toArray().length;
+                                if(!(length == 0)){
+                                    int row = rand.nextInt(length);
+                                    if(!(rightArmy[collum][row] == null) && rightArmy[collum][row].isVisible()){
+                                        rightArmy[collum][row].setVisible(false);
+                                        on = false;
+                                    }
+
+                                }
+                            }
+
+                        }
+                    },
+                    4000, timeDelay
+            );
+        }
+        else if (winner.getName().equals(firstArmy.getName())){
+            timer = new Timer();
+            int secondSize = secondArmyCopy.getAllUnits().size();
+            final int[] roundCheck = {0};
+            timer.scheduleAtFixedRate(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+                            boolean on = true;
+
+                            while (on){
+                                Random rand = new Random();
+                                int collum = rand.nextInt(4);
+                                int length = Arrays.stream(rightArmy[collum]).filter(Objects::nonNull).toArray().length;
+                                if(!(length == 0)){
+                                    int row = rand.nextInt(length);
+                                    if(!(rightArmy[collum][row] == null) && rightArmy[collum][row].isVisible()){
+                                        rightArmy[collum][row].setVisible(false);
+                                        on = false;
+                                        roundCheck[0]++;
+                                    }
+                                    if (roundCheck[0] == secondSize){
+                                        on = false;
+                                        timer.cancel();
+                                    }
+
+                                }
+                            }
+
+                        }
+                    },
+                    4000, 1000
+            );
+            int timeDelay = secondArmyCopy.getAllUnits().size()*2500/(firsArmyCopy.getAllUnits().size());
+            timer2 = new Timer();
+            timer2.scheduleAtFixedRate(
+                    new TimerTask() {
+                        @Override
+                        public void run() {
+                            boolean on = true;
+                            while (on){
+                                Random rand = new Random();
+                                int collum = rand.nextInt(4);
+                                int length = Arrays.stream(leftArmy[collum]).filter(Objects::nonNull).toArray().length;
+                                if(!(length == 0)){
+                                    int row = rand.nextInt(length);
+                                    if(!(leftArmy[collum][row] == null) && leftArmy[collum][row].isVisible()){
+                                        leftArmy[collum][row].setVisible(false);
+                                        on = false;
+                                    }
+                                }
+                            }
+
+                        }
+                    },
+                    4000, timeDelay
+            );
+        }
+
+
+
+
 
 
 
