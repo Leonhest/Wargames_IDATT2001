@@ -36,6 +36,10 @@ import javafx.util.Duration;
 import javafx.util.converter.IntegerStringConverter;
 import org.apache.commons.lang3.ArrayUtils;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -279,6 +283,7 @@ public class BattleSimController implements Initializable {
     private Timer timer2 = new Timer();
 
     Army winner;
+    Clip clip;
 
     /**
      * {@inheritDoc}
@@ -587,6 +592,7 @@ public class BattleSimController implements Initializable {
         statsExitImage.fitHeightProperty().bind(statsExitPane.heightProperty());
 
         unitSize = 1000;
+
     }
 
 
@@ -948,6 +954,9 @@ public class BattleSimController implements Initializable {
                     new java.util.TimerTask() {
                         @Override
                         public void run() {
+                            clip.stop();
+                            clip.flush();
+                            clip.drain();
                             timer.cancel();
                             timer2.cancel();
                             cancel();
@@ -1281,7 +1290,16 @@ public class BattleSimController implements Initializable {
             nodeHeightRight = nodeRight.getHeight()/2;
         }
 
-
+        try {
+            clip = AudioSystem.getClip();
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                    Main.class.getResourceAsStream("/edu/ntnu/idatt2001/wargames/audio/charge.wav"));
+            clip.open(inputStream);
+            clip.start();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         Path pathLeft = new Path();
         pathLeft.getElements().add (new MoveTo(
                 groupWidthLeft/2,

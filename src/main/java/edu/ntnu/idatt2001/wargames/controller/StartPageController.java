@@ -20,6 +20,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Timer;
@@ -78,6 +81,8 @@ public class StartPageController implements Initializable {
 
     private ImageView[] maps;
 
+    private Clip music;
+
     /**
      * {@inheritDoc}
      * Sets up layout of scene and binds elements to achieve dynamic scaling.
@@ -116,6 +121,18 @@ public class StartPageController implements Initializable {
         map.fitHeightProperty().bind(mapPane.heightProperty());
         setBackgroundImage();
 
+
+        try {
+            music = AudioSystem.getClip();
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                    Main.class.getResourceAsStream("/edu/ntnu/idatt2001/wargames/audio/alexander-nakarada-behind-the-sword.wav"));
+            music.open(inputStream);
+            music.start();
+            music.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -178,6 +195,7 @@ public class StartPageController implements Initializable {
     @FXML
     public void startBattle(ActionEvent event) throws IOException {
         timer.cancel();
+        music.stop();
         Parent viewPage = FXMLLoader.load(Objects.requireNonNull(StartPageController.class.getResource("/edu/ntnu/idatt2001/wargames/frontend/BattleSim.fxml")));
         Scene page = new Scene(viewPage, 800, 600);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
