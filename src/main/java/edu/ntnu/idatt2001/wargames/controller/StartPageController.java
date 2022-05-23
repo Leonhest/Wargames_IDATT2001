@@ -191,7 +191,7 @@ public class StartPageController implements Initializable {
      * Gets chosenMap.
      * Used as background in BattleSim.fxml.
      * Each map corresponds to a terrain in a battle.
-     * @return
+     * @return map as Image
      */
     public static Image getChosenMap(){
         return chosenMap;
@@ -204,6 +204,7 @@ public class StartPageController implements Initializable {
         timer.cancel();
         Stage stage = (Stage) offButton.getScene().getWindow();
         stage.close();
+        System.exit(0);
     }
 
 }

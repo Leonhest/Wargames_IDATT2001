@@ -614,14 +614,15 @@ public class BattleSimController implements Initializable {
      */
     @FXML
     public void toStartPage(ActionEvent event) throws IOException {
+        timer.cancel();
+        timer2.cancel();
         Parent viewPage = FXMLLoader.load(Objects.requireNonNull(StartPageController.class.getResource("/edu/ntnu/idatt2001/wargames/frontend/StartPage.fxml")));
         Scene page = new Scene(viewPage, 800, 600);
         Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         window.setScene(page);
         window.setMaximized(true);
         window.show();
-        timer.cancel();
-        timer2.cancel();
+
 
     }
 
@@ -949,10 +950,7 @@ public class BattleSimController implements Initializable {
                         public void run() {
                             timer.cancel();
                             timer2.cancel();
-                            timer.purge();
-                            timer2.purge();
-                            this.cancel();
-
+                            cancel();
 
                         }
                     },
@@ -965,17 +963,14 @@ public class BattleSimController implements Initializable {
                             winnerBackground.setVisible(true);
                             winnerGrid.setVisible(true);
                             battleButton.setDisable(false);
-                            this.cancel();
+                            cancel();
 
                         }
                     },
                     delay
             );
         }
-
-
-
-    }
+        }
 
     /**
      * Represents Retry button on winner screen.
@@ -1288,8 +1283,12 @@ public class BattleSimController implements Initializable {
 
 
         Path pathLeft = new Path();
-        pathLeft.getElements().add (new MoveTo(groupWidthLeft/2, nodeLeft.getTranslateY() + nodeLeft.getBoundsInParent().getHeight() / 2.0 - nodeheightleft));
-        pathLeft.getElements().add (new LineTo( root.getWidth()/2-groupWidthLeft/2, nodeLeft.getTranslateY() + nodeLeft.getBoundsInParent().getHeight() / 2.0 - nodeheightleft));
+        pathLeft.getElements().add (new MoveTo(
+                groupWidthLeft/2,
+                nodeLeft.getTranslateY() + nodeLeft.getBoundsInParent().getHeight() / 2.0 - nodeheightleft));
+        pathLeft.getElements().add (new LineTo(
+                root.getWidth()/2-groupWidthLeft/2,
+                nodeLeft.getTranslateY() + nodeLeft.getBoundsInParent().getHeight() / 2.0 - nodeheightleft));
 
         PathTransition pathTransitionLeft = new PathTransition();
         pathTransitionLeft.setDuration(Duration.millis(4000));
@@ -1332,7 +1331,8 @@ public class BattleSimController implements Initializable {
                                 }
                                 if (roundCheck[0] == secondSize){
                                     on = false;
-                                    timer.cancel();
+                                    cancel();
+
                                 }
                             }
                         }
@@ -1388,7 +1388,7 @@ public class BattleSimController implements Initializable {
                                     }
                                     if (roundCheck[0] == secondSize){
                                         on = false;
-                                        timer.cancel();
+                                        cancel();
                                     }
 
                                 }
